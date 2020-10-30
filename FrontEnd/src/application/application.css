@@ -1,0 +1,14 @@
+.button
+{
+	-fx-background-color: #00CC00;
+}
+
+.button:hover
+{
+	-fx-background-color: #019101;
+	-GMSbutton-hover-color: #019101;
+}
+
+.hbox {
+	-fx-background-color: #2f4f4f;
+}
