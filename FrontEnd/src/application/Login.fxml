@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -11,69 +12,91 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
+<BorderPane prefHeight="550.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
    <center>
       <BorderPane prefHeight="500.0" prefWidth="700.0" style="-fx-border-color: #000000;" BorderPane.alignment="CENTER">
          <left>
-            <AnchorPane prefHeight="500.0" prefWidth="350.0" style="-fx-background-color: #00CC00;" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="548.0" prefWidth="393.0" style="-fx-background-color: #00CC00;" BorderPane.alignment="CENTER">
                <children>
-                  <ImageView fitHeight="150.0" fitWidth="133.0" layoutX="108.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="211.0" fitWidth="211.0" layoutX="94.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@controller3.png" />
                      </image>
                   </ImageView>
-                  <Text fill="WHITE" layoutX="53.0" layoutY="278.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game Management System">
+                  <Text fill="WHITE" layoutX="43.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game Management System" wrappingWidth="307.15625">
                      <font>
-                        <Font size="20.0" />
+                        <Font size="25.0" />
                      </font>
                   </Text>
                </children></AnchorPane>
          </left>
          <center>
-            <AnchorPane prefHeight="500.0" prefWidth="350.0" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="548.0" prefWidth="374.0" BorderPane.alignment="CENTER">
                <children>
-                  <TextField fx:id="uname" layoutX="101.0" layoutY="191.0" onKeyPressed="#textLogin" promptText="Username" style="-fx-background-color: transparent; -fx-border-color: #00CC00; -fx-border-width: 0px 0px 2px 0px;" />
-                  <PasswordField fx:id="pass" layoutX="101.0" layoutY="252.0" onKeyPressed="#textLogin" promptText="Password" style="-fx-background-color: transparent; -fx-border-color: #00CC00; -fx-border-width: 0px 0px 2px 0px;" />
-                  <Button fx:id="loginKey" layoutX="129.0" layoutY="316.0" mnemonicParsing="false" onAction="#buttonLogin" prefHeight="39.0" prefWidth="93.0" style="-fx-background-color: #00CC00;" text="Login" />
-                  <Hyperlink layoutX="117.0" layoutY="445.0" text="Forgot Password?" textFill="#00cc00" />
-                  <ImageView fitHeight="84.0" fitWidth="83.0" layoutX="134.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+                  <TextField fx:id="uname" layoutX="143.0" layoutY="222.0" onKeyPressed="#textLogin" prefHeight="40.0" prefWidth="200.0" promptText="Username" style="-fx-background-color: transparent; -fx-border-color: #00CC00; -fx-border-width: 0px 0px 2px 0px;">
+                     <font>
+                        <Font size="15.0" />
+                     </font></TextField>
+                  <PasswordField fx:id="pass" layoutX="143.0" layoutY="285.0" onKeyPressed="#textLogin" prefHeight="40.0" prefWidth="200.0" promptText="Password" style="-fx-background-color: transparent; -fx-border-color: #00CC00; -fx-border-width: 0px 0px 2px 0px;">
+                     <font>
+                        <Font size="15.0" />
+                     </font></PasswordField>
+                  <Button fx:id="loginKey" layoutX="116.0" layoutY="350.0" mnemonicParsing="false" onAction="#buttonLogin" prefHeight="44.0" prefWidth="228.0" style="-fx-background-color: #00CC00;" text="Login" textFill="WHITE">
+                     <font>
+                        <Font size="23.0" />
+                     </font></Button>
+                  <Hyperlink layoutX="139.0" layoutY="405.0" text="Forgot Username/Password?" textFill="#00cc00">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font></Hyperlink>
+                  <ImageView fitHeight="130.0" fitWidth="119.0" layoutX="170.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../Desktop/GUI/userLogin.png" />
+                        <Image url="@userLogin.png" />
                      </image>
                   </ImageView>
-                  <Text fill="#00cc00" layoutX="125.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User Login">
+                  <Text fill="#00cc00" layoutX="131.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Member Login" wrappingWidth="195.0478515625">
                      <font>
-                        <Font size="22.0" />
+                        <Font size="30.0" />
                      </font>
                   </Text>
-                  <ImageView fitHeight="21.0" fitWidth="32.0" layoutX="68.0" layoutY="197.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="25.0" fitWidth="32.0" layoutX="113.0" layoutY="234.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@acountIcon.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="32.0" fitWidth="42.0" layoutX="63.0" layoutY="253.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="37.0" fitWidth="51.0" layoutX="103.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@lock1.png" />
                      </image>
                   </ImageView>
-                  <Button fx:id="closeButton" layoutX="294.0" layoutY="7.0" mnemonicParsing="false" onAction="#handleCloseButtonAction" style="-fx-background-color: transparent;">
+                  <Button fx:id="closeButton" layoutX="405.0" layoutY="3.0" mnemonicParsing="false" onAction="#handleCloseButtonAction" style="-fx-background-color: transparent;">
                      <graphic>
-                        <ImageView fitHeight="37.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="36.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@exit.png" />
                            </image>
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="minimizeButton" layoutX="269.0" layoutY="7.0" mnemonicParsing="false" onAction="#minimize" style="-fx-background-color: transparent;">
+                  <Button fx:id="minimizeButton" layoutX="380.0" layoutY="4.0" mnemonicParsing="false" onAction="#minimize" style="-fx-background-color: transparent;">
                      <graphic>
-                        <ImageView fitHeight="18.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="25.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@underscore.png" />
                            </image>
                         </ImageView>
                      </graphic>
                   </Button>
+                  <Hyperlink fx:id="register" layoutX="166.0" layoutY="504.0" onAction="#goToRegisterPage" text="Register Here!" textFill="#00cc00">
+                     <font>
+                        <Font name="System Bold" size="19.0" />
+                     </font>
+                  </Hyperlink>
+                  <Label layoutX="151.0" layoutY="484.0" text="Don't Have An Account?">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
          </center>

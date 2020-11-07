@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -26,23 +27,34 @@ import javafx.event.EventHandler;
 
 public class SampleController implements Initializable{
 
+	// assign this to all buttons that close the application
 	@FXML
 	private Button closeButton;
 
+	// assign this to all buttons that minimize the application
 	@FXML
     private Button minimizeButton;
 	
+	// user name on login screen
 	@FXML
 	private TextField uname;
 
+	// password on login screen
 	@FXML
 	private PasswordField pass;
 
+	// login button on login screen
 	@FXML
 	private Button loginKey;
 
+	// button to add shortcuts into list on homescreen
 	@FXML
 	private Button add;
+	
+	// hyperlink to registration page
+	@FXML
+	private Hyperlink register;
+	
 
 	//Close current window
 	@FXML
@@ -50,13 +62,24 @@ public class SampleController implements Initializable{
 		Stage stage = (Stage) closeButton.getScene().getWindow();
 		stage.close();
 	}
-
+	
+	//Minimizes the window
 	@FXML
     void minimize(ActionEvent event) {
 		Stage stage = (Stage) minimizeButton.getScene().getWindow();
 		stage.setIconified(true);
 	}
 	
+	// When the hyperlink to register page is activated, send user to the registration screen
+	@FXML
+	void goToRegisterPage(ActionEvent event) {
+		handleCloseButtonAction(event);
+		Stage stageReg = new Stage();
+		RegisterPage registers = new RegisterPage();
+		registers.start(stageReg);
+	}
+	
+	// doesn't work
 	@FXML
 	void hovers() {
 		add.setStyle("button-hover-color: #019101;");
@@ -85,18 +108,15 @@ public class SampleController implements Initializable{
 		}
 	}
 
-	//Handles login procedures
+	//Handles login procedures if login button is pressed
 	@FXML
 	public void buttonLogin(Event event) {
 		Stage stage = new Stage();
 		if (uname.getText().equals("admin") && pass.getText().equals("password")) {
 			try {
 				handleCloseButtonAction(event);
-				BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("GMSHomepage.fxml"));
-				Scene scene = new Scene(root);
-				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-				stage.setScene(scene);
-				stage.show();
+				GMS_HomePage mainPage = new GMS_HomePage();
+				mainPage.start(stage);
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -113,6 +133,14 @@ public class SampleController implements Initializable{
 		}
 	}
 
+	// Used when the user needs to get back to the login screen
+	public void backToLogin(Event event) {
+		handleCloseButtonAction(event);
+		Stage stage = new Stage();
+		Main loginPage = new Main();
+		loginPage.start(stage);
+	}
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
