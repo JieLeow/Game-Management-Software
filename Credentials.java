@@ -26,6 +26,7 @@ public class Credentials
 		if (csvFile.isFile()) {
 			BufferedReader csvReader = new BufferedReader(new FileReader(path));
 			String row;
+			csvReader.readLine();
 			while ((row = csvReader.readLine()) != null) {
 				String[] data = row.split(",");
 				if (data[0].equals(user)) {
@@ -45,6 +46,7 @@ public class Credentials
 		if (csvFile.isFile()) {
 			BufferedReader csvReader = new BufferedReader(new FileReader(path));
 			String row;
+			csvReader.readLine();
 			while ((row = csvReader.readLine()) != null) {
 				String[] data = row.split(",");
 				if (data[0].equals(user)) {
@@ -62,5 +64,14 @@ public class Credentials
 
 		csvWriter.flush();
 		csvWriter.close();
+	}
+	
+	public static void main(String[] args){
+		try {
+			Credentials.validateCredentials("User109 ", "pwd");
+		}
+		catch(Exception DuplicateUsernameException){
+			System.out.println("error");
+		}
 	}
 }
