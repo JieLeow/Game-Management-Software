@@ -49,10 +49,10 @@ public class Credentials
 			csvReader.readLine();
 			while ((row = csvReader.readLine()) != null) {
 				String[] data = row.split(",");
-				if(data[0].contains(",")||(data[0].contains(""))) {
+				if(data[0].contains(",")||(data[0].contains(" "))) {
 					throw new InvalidCharacterException("Invalid character in username");
 				}
-				if(data[1].contains(",")||(data[1].contains(""))) {
+				if(data[1].contains(",")||(data[1].contains(" "))) {
 					throw new InvalidCharacterException("Invalid character in password");
 				}
 				if(data[0].equals(user)) {
