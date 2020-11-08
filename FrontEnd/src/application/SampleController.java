@@ -35,6 +35,20 @@ public class SampleController implements Initializable{
 	@FXML
     private Button minimizeButton;
 	
+	
+	/** LJ Edits  */
+	//user name on registration screen
+	@FXML
+	private TextField regname;
+	
+	
+	@FXML
+	//user password on registration screen
+	private PasswordField regpass;
+	/** LJ Edits End here  */
+	
+	
+	
 	// user name on login screen
 	@FXML
 	private TextField uname;
@@ -85,12 +99,59 @@ public class SampleController implements Initializable{
 		add.setStyle("button-hover-color: #019101;");
 	}
 	
+	
+	
+	/** LJ EDITS  - ADD REGISTRATION BACKEND STUFFS HERE*/
+	//if you press enter on any of the text fields, registration process will initiate
+	@FXML
+	public void textRegister(KeyEvent kev) {
+		Stage stage = new Stage();
+		if(kev.getCode() == KeyCode.ENTER) {
+				Alert a = new Alert(AlertType.INFORMATION);
+				a.setTitle("Error");
+				a.setContentText("This is registration page");
+				a.setHeaderText(null);
+				//a.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("controller.png"))));
+				a.initStyle(StageStyle.UTILITY);
+				
+				
+				// show the alert
+				a.show();
+			}
+		
+	}
+	
+	public void buttonRegister(Event event) {
+		Stage stage = new Stage();
+		
+		if (regname.getText().equals("admin") && regpass.getText().equals("password")) {  //fix here, change to param in csv file
+			try {
+				handleCloseButtonAction(event);
+				GMS_HomePage mainPage = new GMS_HomePage();
+				mainPage.start(stage);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+//		
+//		Alert a = new Alert(AlertType.INFORMATION);
+//		a.setTitle("Error");
+//		a.setContentText("Register");
+//		a.setHeaderText(null);
+//		//a.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("controller.png"))));
+//		a.initStyle(StageStyle.UTILITY);
+//		// show the alert
+//		a.show();
+		
+	}
+	/** ENDS HERE - LJ*/
+	
 	//if you press enter on any of the text fields, login process will initiate
 	@FXML
 	public void textLogin(KeyEvent kev) {
 		Stage stage = new Stage();
 		if(kev.getCode() == KeyCode.ENTER) {
-			if (uname.getText().equals("admin") && pass.getText().equals("password")) {
+			if (uname.getText().equals("admin") && pass.getText().equals("password")) { //fix here, change to param in csv file
 				handleCloseButtonAction(kev);
 				GMS_HomePage mainPage = new GMS_HomePage();
 				mainPage.start(stage);
@@ -112,7 +173,7 @@ public class SampleController implements Initializable{
 	@FXML
 	public void buttonLogin(Event event) {
 		Stage stage = new Stage();
-		if (uname.getText().equals("admin") && pass.getText().equals("password")) {
+		if (uname.getText().equals("admin") && pass.getText().equals("password")) {  //fix here, change to param in csv file
 			try {
 				handleCloseButtonAction(event);
 				GMS_HomePage mainPage = new GMS_HomePage();

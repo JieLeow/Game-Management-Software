@@ -36,17 +36,17 @@
                   <Font name="System Bold" size="30.0" />
                </font>
             </Text>
-            <TextField layoutX="111.0" layoutY="238.0" promptText="Desired Username" style="-fx-background-color: transparent; -fx-border-color: #00CC00; -fx-border-width: 0px 0px 2px 0px;">
+            <TextField fx:id="regname" layoutX="111.0" layoutY="238.0" promptText="Desired Username" onKeyPressed="#textRegister" style="-fx-background-color: transparent; -fx-border-color: #00CC00; -fx-border-width: 0px 0px 2px 0px;">
                <font>
                   <Font size="19.0" />
                </font>
             </TextField>
-            <PasswordField layoutX="111.0" layoutY="315.0" promptText="Desired Password" style="-fx-background-color: transparent; -fx-border-color: #00CC00; -fx-border-width: 0px 0px 2px 0px;">
+            <PasswordField  fx:id="regpass" layoutX="111.0" layoutY="315.0"  promptText="Desired Password" onKeyPressed="#textRegister" style="-fx-background-color: transparent; -fx-border-color: #00CC00; -fx-border-width: 0px 0px 2px 0px;">
                <font>
                   <Font size="19.0" />
                </font>
             </PasswordField>
-            <Button layoutX="114.0" layoutY="401.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="228.0" stylesheets="@application.css" text="SIGN UP" textFill="WHITE">
+            <Button layoutX="114.0" layoutY="401.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="228.0" onAction="#buttonRegister" stylesheets="@application.css" text="SIGN UP" textFill="WHITE">
                <font>
                   <Font size="23.0" />
                </font>
