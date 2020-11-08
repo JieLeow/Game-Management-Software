@@ -71,13 +71,4 @@ public class Credentials
 		csvWriter.flush();
 		csvWriter.close();
 	}
-	
-	public static void main(String[] args) throws DuplicateUsernameException, IOException {
-		try {
-			Credentials.addCredentials("Uzed 1", "pwd z");
-		} catch(InvalidCharacterException error) {
-			System.out.println("error");
-		}
-	}
-	
 }
