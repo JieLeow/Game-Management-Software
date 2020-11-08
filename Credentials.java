@@ -41,7 +41,7 @@ public class Credentials
 	}
 
 	//append credentials to csv file
-	public static void addCredentials(String user, String pwd) throws DuplicateUsernameException, IOException{
+	public static void addCredentials(String user, String pwd) throws DuplicateUsernameException, InvalidCharacterException, IOException{
 		File csvFile = new File(path);
 		if (csvFile.isFile()) {
 			BufferedReader csvReader = new BufferedReader(new FileReader(path));
@@ -49,7 +49,13 @@ public class Credentials
 			csvReader.readLine();
 			while ((row = csvReader.readLine()) != null) {
 				String[] data = row.split(",");
-				if (data[0].equals(user)) {
+				if(data[0].contains(",")||(data[0].contains(""))) {
+					throw new InvalidCharacterException("Invalid character in username");
+				}
+				if(data[1].contains(",")||(data[1].contains(""))) {
+					throw new InvalidCharacterException("Invalid character in password");
+				}
+				if(data[0].equals(user)) {
 					throw new DuplicateUsernameException("Duplicate username found");
 				}
 			}
@@ -66,12 +72,12 @@ public class Credentials
 		csvWriter.close();
 	}
 	
-	public static void main(String[] args){
+	public static void main(String[] args) throws DuplicateUsernameException, IOException {
 		try {
-			Credentials.validateCredentials("User109 ", "pwd");
-		}
-		catch(Exception DuplicateUsernameException){
+			Credentials.addCredentials("Uzed 1", "pwd z");
+		} catch(InvalidCharacterException error) {
 			System.out.println("error");
 		}
 	}
+	
 }
