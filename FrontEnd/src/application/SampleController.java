@@ -124,9 +124,15 @@ public class SampleController implements Initializable{
 					Credentials.createCredentialsFile();
 				}
 				
-				Credentials.addCredentials(regname.getText(), regpass.getText());
-				createAlert("Registration Successful", "You are now part of us! Click return to proceed to the Log in Page");
+				if(regname.getText().contains(",") || regname.getText().contains(" ")) {
+					createAlert("Registration Error", "Username contains a comma, please enter a valid username");
+
+				}
 				
+				else {
+					Credentials.addCredentials(regname.getText(), regpass.getText());
+					createAlert("Registration Successful", "You are now part of us! Click return to proceed to the Log in Page");
+				}
 				
 				
 				
@@ -149,9 +155,13 @@ public class SampleController implements Initializable{
 		Stage stage = new Stage();
 		
 		try {
-			Credentials.createCredentialsFile();
 			
-			if(regname.getText().contains(",")) {
+			File f = new File("credentials.csv");
+			if(!f.isFile()) {
+				Credentials.createCredentialsFile();
+			}
+			
+			if(regname.getText().contains(",") || regname.getText().contains(" ")) {
 				createAlert("Registration Error", "Username contains a comma, please enter a valid username");
 
 			}
