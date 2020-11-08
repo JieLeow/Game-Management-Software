@@ -124,8 +124,9 @@ public class SampleController implements Initializable{
 					Credentials.createCredentialsFile();
 				}
 				
+				//disallow space or comma for username
 				if(regname.getText().contains(",") || regname.getText().contains(" ")) {
-					createAlert("Registration Error", "Username contains a comma, please enter a valid username");
+					createAlert("Registration Error", "Username contains invalid characters(comma or space), please enter a valid username");
 
 				}
 				
@@ -140,8 +141,6 @@ public class SampleController implements Initializable{
 				createAlert("Registration Error", "Username Already Existed. Please try a different username");
 			
 			
-			}catch(InvalidCharacterException e) {
-				
 			}catch(IOException e){
 				e.printStackTrace();
 			}
@@ -162,8 +161,7 @@ public class SampleController implements Initializable{
 			}
 			
 			if(regname.getText().contains(",") || regname.getText().contains(" ")) {
-				createAlert("Registration Error", "Username contains a comma, please enter a valid username");
-
+				createAlert("Registration Error", "Username contains invalid characters(comma or space), please enter a valid username");
 			}
 			
 			else {
