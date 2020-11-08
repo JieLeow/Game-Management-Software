@@ -41,7 +41,7 @@ public class Credentials
 	}
 
 	//append credentials to csv file
-	public static void addCredentials(String user, String pwd) throws DuplicateUsernameException, InvalidCharacterException, IOException{
+	public static void addCredentials(String user, String pwd) throws DuplicateUsernameException, IOException{
 		File csvFile = new File(path);
 		if (csvFile.isFile()) {
 			BufferedReader csvReader = new BufferedReader(new FileReader(path));
@@ -49,12 +49,6 @@ public class Credentials
 			csvReader.readLine();
 			while ((row = csvReader.readLine()) != null) {
 				String[] data = row.split(",");
-				if(data[0].contains(",")||(data[0].contains(" "))) {
-					throw new InvalidCharacterException("Invalid character in username");
-				}
-				if(data[1].contains(",")||(data[1].contains(" "))) {
-					throw new InvalidCharacterException("Invalid character in password");
-				}
 				if(data[0].equals(user)) {
 					throw new DuplicateUsernameException("Duplicate username found");
 				}
