@@ -38,7 +38,7 @@
                         <Font size="30.0" />
                      </font>
                   </Button>
-                  <Button layoutY="549.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="250.0" stylesheets="@application.css" text="Logout" textFill="WHITE">
+                  <Button layoutY="549.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="250.0" stylesheets="@application.css" text="Logout" onAction="#backToLogin" textFill="WHITE">
                      <font>
                         <Font size="30.0" />
                      </font>

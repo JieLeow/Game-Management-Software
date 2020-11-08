@@ -1,7 +1,10 @@
 package application;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import java.io.File;
 
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -34,6 +37,15 @@ public class SampleController implements Initializable{
 	// assign this to all buttons that minimize the application
 	@FXML
     private Button minimizeButton;
+	
+	//user name on registration screen
+	@FXML
+	private TextField regname;
+	
+	
+	@FXML
+	//user password on registration screen
+	private PasswordField regpass;
 	
 	// user name on login screen
 	@FXML
@@ -85,25 +97,103 @@ public class SampleController implements Initializable{
 		add.setStyle("button-hover-color: #019101;");
 	}
 	
+	
+	public void createAlert(String title, String content) {
+		
+		Alert a = new Alert(AlertType.INFORMATION);
+		a.setTitle(title);
+		a.setContentText(content);
+		a.setHeaderText(null);
+		a.initStyle(StageStyle.UTILITY);
+		// show the alert
+		a.show();
+		
+	}
+	
+	
+	//if you press enter on any of the text fields, registration process will initiate
+	@FXML
+	public void textRegister(KeyEvent kev) {
+		Stage stage = new Stage();
+		if(kev.getCode() == KeyCode.ENTER) {
+			
+			try {
+				
+				File f = new File("credentials.csv");
+				if(!f.isFile()) {
+					Credentials.createCredentialsFile();
+				}
+				
+				Credentials.addCredentials(regname.getText(), regpass.getText());
+				createAlert("Registration Successful", "You are now part of us! Click return to proceed to the Log in Page");
+				
+				
+				
+				
+			}catch(DuplicateUsernameException e) {
+				createAlert("Registration Error", "Username Already Existed. Please try a different username");
+			
+			
+			}catch(InvalidCharacterException e) {
+				
+			}catch(IOException e){
+				e.printStackTrace();
+			}
+			
+		}
+		
+	}
+	
+	//Handles login procedures if register button is pressed
+	public void buttonRegister(Event event) {
+		Stage stage = new Stage();
+		
+		try {
+			Credentials.createCredentialsFile();
+			
+			if(regname.getText().contains(",")) {
+				createAlert("Registration Error", "Username contains a comma, please enter a valid username");
+
+			}
+			
+			else {
+				Credentials.addCredentials(regname.getText(), regpass.getText());
+				createAlert("Registration Successful", "You are now part of us! Click return to proceed to the Log in Page");
+			}
+			
+		}catch(DuplicateUsernameException e) {
+			createAlert("Registration Error", "Username Already Existed. Please try a different username");
+		
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	//if you press enter on any of the text fields, login process will initiate
 	@FXML
 	public void textLogin(KeyEvent kev) {
 		Stage stage = new Stage();
 		if(kev.getCode() == KeyCode.ENTER) {
-			if (uname.getText().equals("admin") && pass.getText().equals("password")) {
-				handleCloseButtonAction(kev);
-				GMS_HomePage mainPage = new GMS_HomePage();
-				mainPage.start(stage);
-			}
-			else {
-				Alert a = new Alert(AlertType.INFORMATION);
-				a.setTitle("Error");
-				a.setContentText("Incorrect Username or Password");
-				a.setHeaderText(null);
-				//a.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("controller.png"))));
-				a.initStyle(StageStyle.UTILITY);
-				// show the alert
-				a.show();
+			try {
+				
+				boolean exist = Credentials.validateCredentials(uname.getText(), pass.getText());
+
+				if(exist) {
+					handleCloseButtonAction(kev);
+					GMS_HomePage mainPage = new GMS_HomePage();
+					mainPage.start(stage);
+				}
+				else {
+					createAlert("Incorrect Password", "Your password is incorrect, Please ensure there are no typos");
+				}
+				
+				
+			}catch(UsernameNotFoundException e) {
+				createAlert("Login Error", "There's no record of your username in our System. Please Try Again.");
+			
+			}catch(IOException e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -112,24 +202,25 @@ public class SampleController implements Initializable{
 	@FXML
 	public void buttonLogin(Event event) {
 		Stage stage = new Stage();
-		if (uname.getText().equals("admin") && pass.getText().equals("password")) {
-			try {
+		try {
+			
+			boolean exist = Credentials.validateCredentials(uname.getText(), pass.getText());
+
+			if(exist) {
 				handleCloseButtonAction(event);
 				GMS_HomePage mainPage = new GMS_HomePage();
 				mainPage.start(stage);
-			} catch(Exception e) {
-				e.printStackTrace();
 			}
-		}
-		else {
-			Alert a = new Alert(AlertType.INFORMATION);
-			a.setTitle("Error");
-			a.setContentText("Incorrect Username or Password");
-			a.setHeaderText(null);
-			//a.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("controller.png"))));
-			a.initStyle(StageStyle.UTILITY);
-			// show the alert
-			a.show();
+			else {
+				createAlert("Incorrect Password", "Your password is incorrect, Please ensure there are no typos");
+			}
+			
+			
+		}catch(UsernameNotFoundException e) {
+			createAlert("Login Error", "There's no record of your username in our System. Please Try Again.");
+		
+		}catch(IOException e) {
+			e.printStackTrace();
 		}
 	}
 
