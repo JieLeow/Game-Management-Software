@@ -29,7 +29,6 @@ public class Main extends Application {
 		try {
 			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("Login.fxml"));
 			Scene scene = new Scene(root);
-			
 			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("controller2.png")));
 			
 			//Removes default top bar

@@ -42,7 +42,6 @@ public class SampleController implements Initializable{
 	@FXML
 	private TextField regname;
 	
-	
 	@FXML
 	//user password on registration screen
 	private PasswordField regpass;
@@ -97,7 +96,10 @@ public class SampleController implements Initializable{
 		add.setStyle("button-hover-color: #019101;");
 	}
 	
-	
+	/* creates an alert
+	@Param title - name of the alert box
+	@Param content - what you want said in the alert box
+	*/
 	public void createAlert(String title, String content) {
 		
 		Alert a = new Alert(AlertType.INFORMATION);
@@ -106,10 +108,8 @@ public class SampleController implements Initializable{
 		a.setHeaderText(null);
 		a.initStyle(StageStyle.UTILITY);
 		// show the alert
-		a.show();
-		
+		a.showAndWait();	
 	}
-	
 	
 	//if you press enter on any of the text fields, registration process will initiate
 	@FXML
@@ -126,33 +126,30 @@ public class SampleController implements Initializable{
 				
 				//disallow space or comma for username
 				if(regname.getText().contains(",") || regname.getText().contains(" ")) {
-					createAlert("Registration Error", "Username contains invalid characters(comma or space), please enter a valid username");
-
+					createAlert("Registration Error", "Username or Password contains invalid characters(comma or space), please enter a valid username");
 				}
-				
+				else if(regname.getText() == null || regpass.getText() == null || regname.getText().trim().isEmpty() || regpass.getText().trim().isEmpty()) {
+					createAlert("Registration Error", "Username or Password contains invalid characters(comma or space), please enter a valid username");
+				}
 				else {
 					Credentials.addCredentials(regname.getText(), regpass.getText());
-					createAlert("Registration Successful", "You are now part of us! Click return to proceed to the Log in Page");
-				}
-				
-				
-				
+					createAlert("Registration Successful", "You are now part of us! Enter your Username and Password at the Login Page");
+					handleCloseButtonAction(kev);
+					Main loginPage = new Main();
+					loginPage.start(stage);
+				}	
 			}catch(DuplicateUsernameException e) {
 				createAlert("Registration Error", "Username Already Existed. Please try a different username");
-			
 			
 			}catch(IOException e){
 				e.printStackTrace();
 			}
-			
 		}
-		
 	}
 	
 	//Handles login procedures if register button is pressed
 	public void buttonRegister(Event event) {
 		Stage stage = new Stage();
-		
 		try {
 			
 			File f = new File("credentials.csv");
@@ -163,14 +160,19 @@ public class SampleController implements Initializable{
 			if(regname.getText().contains(",") || regname.getText().contains(" ")) {
 				createAlert("Registration Error", "Username contains invalid characters(comma or space), please enter a valid username");
 			}
-			
+			else if(regname.getText() == null || regpass.getText() == null || regname.getText().trim().isEmpty() || regpass.getText().trim().isEmpty()) {
+				createAlert("Registration Error", "Username or Password contains invalid characters(comma or space or nothing), please enter a valid username");
+			}
 			else {
 				Credentials.addCredentials(regname.getText(), regpass.getText());
-				createAlert("Registration Successful", "You are now part of us! Click return to proceed to the Log in Page");
+				createAlert("Registration Successful", "You are now part of us! Enter your Username and Password at the Login Page");
+				handleCloseButtonAction(event);
+				Main loginPage = new Main();
+				loginPage.start(stage);
 			}
 			
 		}catch(DuplicateUsernameException e) {
-			createAlert("Registration Error", "Username Already Existed. Please try a different username");
+			createAlert("Registration Error", "Username Already Exists. Please try a different username");
 		
 		}catch(IOException e) {
 			e.printStackTrace();
@@ -183,10 +185,9 @@ public class SampleController implements Initializable{
 	public void textLogin(KeyEvent kev) {
 		Stage stage = new Stage();
 		if(kev.getCode() == KeyCode.ENTER) {
-			try {
-				
+			try {	
 				boolean exist = Credentials.validateCredentials(uname.getText(), pass.getText());
-
+				
 				if(exist) {
 					handleCloseButtonAction(kev);
 					GMS_HomePage mainPage = new GMS_HomePage();
@@ -195,8 +196,6 @@ public class SampleController implements Initializable{
 				else {
 					createAlert("Incorrect Password", "Your password is incorrect, Please ensure there are no typos");
 				}
-				
-				
 			}catch(UsernameNotFoundException e) {
 				createAlert("Login Error", "There's no record of your username in our System. Please Try Again.");
 			
