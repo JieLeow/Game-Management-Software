@@ -23,7 +23,7 @@ public class GMS_HomePage extends Application {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			stage.setScene(scene);
 			stage.initStyle(StageStyle.UNDECORATED);
-			//stage.getIcons().add(new Image(getClass().getResourceAsStream("controller2.png")));
+			stage.getIcons().add(new Image(getClass().getResourceAsStream("controller2.png")));
 			
 			root.setOnMousePressed(new EventHandler<MouseEvent>(){
 				public void handle(MouseEvent event) {
