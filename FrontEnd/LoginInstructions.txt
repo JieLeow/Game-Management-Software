@@ -1,0 +1,9 @@
+GMS - Game Management System Login Intructions
+
+1. If you already have an account (username and password), enter them into the Login Page to proceed to the Home Page. If not, continue to step 2.
+
+2. At the Login Page, press the "Register Here!" button
+
+3. Enter your Desired Username and Desired Passwords into the appropriate text fields. Then press the Sign Up button.
+
+4. You will be redirected to the Login Page where you will enter your Username and Password. Then you will be redirected to the Home Page.
