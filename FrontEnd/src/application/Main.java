@@ -2,22 +2,13 @@ package application;
 	
 import javafx.application.Application;
 import javafx.event.EventHandler;
-import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.AnchorPane;
 import javafx.fxml.FXMLLoader;
-
-import java.lang.ModuleLayer.Controller;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 
 public class Main extends Application {
 	
