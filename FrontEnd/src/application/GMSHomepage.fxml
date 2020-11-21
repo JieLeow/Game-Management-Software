@@ -15,6 +15,10 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.cell.*?> 
+<?import javafx.collections.*?> 
+<?import application.*?> 
+
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" style="-fx-border-color: #000000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
    <left>
       <VBox prefHeight="560.0" prefWidth="250.0" style="-fx-background-color: #00CC00;" BorderPane.alignment="CENTER">
@@ -85,12 +89,12 @@
                      </font>
                   </Label>
                   <Circle fill="#f80000" layoutX="619.0" layoutY="76.0" radius="17.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Button layoutX="17.0" layoutY="575.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="168.0" stylesheets="@application.css" text="Add" textFill="WHITE">
+                  <Button layoutX="17.0" layoutY="575.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="168.0" stylesheets="@application.css"  onAction="#chooseFile" fx:id="add" text="Add" textFill="WHITE">
                      <font>
                         <Font size="30.0" />
                      </font>
                   </Button>
-                  <Button layoutX="202.0" layoutY="575.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="168.0" stylesheets="@application.css" text="Delete" textFill="WHITE">
+                  <Button layoutX="202.0" layoutY="575.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="168.0" stylesheets="@application.css" onAction="#removeFile" fx:id="delete" text="Delete" textFill="WHITE">
                      <font>
                         <Font size="30.0" />
                      </font>
@@ -107,10 +111,45 @@
                         <Image url="@down-arrow.png" />
                      </image>
                   </ImageView>
-                  <TableView layoutX="17.0" layoutY="119.0" prefHeight="436.0" prefWidth="718.0">
+                  <TableView layoutX="17.0" layoutY="119.0" prefHeight="436.0" prefWidth="718.0" fx:id="table1">
                     <columns>
-                      <TableColumn prefWidth="717.0" text="Games" />
+                      <TableColumn prefWidth="170.0" text="Program Name">
+                      	<cellValueFactory>
+                      		<PropertyValueFactory property="programName" />
+        				</cellValueFactory>
+        			  </TableColumn>
+ 	
+                      <TableColumn prefWidth="300.0" text="Program Directory">
+                       	<cellValueFactory>
+                      		<PropertyValueFactory property="programDirectory" />
+        				</cellValueFactory>
+					  </TableColumn>
+					  
+                      <TableColumn prefWidth="124.0" text="Hours Played">
+                       	<cellValueFactory>
+                      		<PropertyValueFactory property="hoursPlayed" />
+        				</cellValueFactory>
+                      </TableColumn>
+                      
+                      <TableColumn prefWidth="123.0" text="Game Status">
+                      	<cellValueFactory>
+                      		<PropertyValueFactory property="gameStatus" />
+        				</cellValueFactory>
+                      </TableColumn>      
                     </columns>
+                	
+                	<items>
+                		<FXCollections fx:factory="observableArrayList">
+					        <Program programName="Test" programDirectory="Test/path" hoursPlayed="1"
+					        gameStatus = "Test offline" />  
+					         <Program programName="Test2" programDirectory="aTest/path" hoursPlayed="21"
+					        gameStatus = "2Test offline" />
+					    </FXCollections>
+					    
+					         
+					   
+                	</items>
+                  
                   </TableView>
                </children>
             </Pane>
