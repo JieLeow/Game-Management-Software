@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import java.io.File;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -18,6 +19,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -63,14 +65,27 @@ public class SampleController implements Initializable{
 	// button to add shortcuts into list on homescreen
 	@FXML
 	private Button add;
+	
+	//button to delete selected shortcuts in the list on homescreen
+	@FXML
+	private Button delete;
+	
+	//button to move a shortcut up in the list
+	@FXML
+	private Button up;
+	
+	//button to move a shortcut down in the list
+	@FXML
+	private Button down;
 
 	// hyperlink to registration page
 	@FXML
 	private Hyperlink register;
-
+	
+	//table where the shortcuts would be added to
 	@FXML
-	private TableView table1;
-
+	private TableView<Program> table1;
+	
 
 	//Close current window
 	@FXML
@@ -138,6 +153,12 @@ public class SampleController implements Initializable{
 				}
 				else {
 					Credentials.addCredentials(regname.getText(), regpass.getText());
+					
+					File userFile = new File(regname.getText().concat(".exe"));
+					if(!f.isFile()) {
+					//Credentials.createCredentialsFile();   create user file;
+					}
+					
 					createAlert("Registration Successful", "You are now part of us! Enter your Username and Password at the Login Page");
 					handleCloseButtonAction(kev);
 					Main loginPage = new Main();
@@ -170,6 +191,12 @@ public class SampleController implements Initializable{
 			}
 			else {
 				Credentials.addCredentials(regname.getText(), regpass.getText());
+				
+				File userFile = new File(regname.getText().concat(".exe"));
+				if(!f.isFile()) {
+				//Credentials.createCredentialsFile();   create user file;
+				}
+				
 				createAlert("Registration Successful", "You are now part of us! Enter your Username and Password at the Login Page");
 				handleCloseButtonAction(event);
 				Main loginPage = new Main();
@@ -244,29 +271,70 @@ public class SampleController implements Initializable{
 		loginPage.start(stage);
 	}
 
-	public void addShortcut() {
-		Stage stage = new Stage();
-		try {
-			File f = new File("tableData.csv");
-			if(!f.isFile()) {
-				GMSTable.createTableFile();
+//	public void addShortcut() {
+//		Stage stage = new Stage();
+//		try {
+//			File f = new File("tableData.csv");
+//			if(!f.isFile()) {
+//				GMSTable.createTableFile();
+//			}
+//			FileChooser fileChooser = new FileChooser();
+//			fileChooser.setTitle("Select Game Shortcut");
+//			File shortcut = fileChooser.showOpenDialog(stage);
+//			String fileName;
+//			if (shortcut != null) {
+//				String fileName = shortcut.getAbsolutePath();
+//			}
+//			GMSTable.addShortcut(fileName);
+//		}
+//		catch(DuplicateShortcutException e) {
+//			createAlert("Registration Error", "Username Already Exists. Please try a different username");
+//
+//		}catch(IOException e) {
+//			e.printStackTrace();
+//	}
+//	}
+	
+	//add a program shortcut to the list in homescreen using the add button 
+	public void chooseFile(ActionEvent event) {
+	
+//		System.out.println(event.getSource());	
+		String filePath, fileName;
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Open Resource File");
+		File selectedFile = fileChooser.showOpenDialog(null);
+		if(selectedFile != null) {
+			filePath = selectedFile.getAbsolutePath();
+			fileName = selectedFile.getName();
+			ObservableList<Program> data = table1.getItems();
+			data.add(new Program(fileName, filePath, "0", "0"));
+		}else {
+			filePath = null;
+			fileName = null;
 			}
-			FileChooser fileChooser = new FileChooser();
-			fileChooser.setTitle("Select Game Shortcut");
-			File shortcut = fileChooser.showOpenDialog(stage);
-			String fileName;
-			if (shortcut != null) {
-				String fileName = shortcut.getAbsolutePath();
-			}
-			GMSTable.addShortcut(fileName);
-		}
-		catch(DuplicateShortcutException e) {
-			createAlert("Registration Error", "Username Already Exists. Please try a different username");
+		
+		System.out.println(filePath);
+		
+		
+		/*TODO: need to figure out a way to add the game to the user's profile, 
+		*and fetch program data from there.
+		*Right now its volatile(program shortcuts would be removed upon logging out)	
+		*/
+	}
+	
 
-		}catch(IOException e) {
-			e.printStackTrace();
+	//https://stackoverflow.com/questions/34857007/how-to-delete-row-from-table-column-javafx
+	
+	//remove selected program shortcut in the list in homescreen using the delete button
+	public void removeFile(ActionEvent event) {
+		Program selectedProgram = table1.getSelectionModel().getSelectedItem();
+		table1.getItems().remove(selectedProgram);
+		
+		//needs to remove from user csv file as well;
+		
 	}
-	}
+	
+	
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
