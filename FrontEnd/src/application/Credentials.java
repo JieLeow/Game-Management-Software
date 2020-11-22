@@ -56,6 +56,7 @@ public class Credentials
 				}
 			}
 			csvReader.close();
+			DataManagement.createGamesPathFile(user);
 		}
 		
 		FileWriter csvWriter = new FileWriter(path, true);
