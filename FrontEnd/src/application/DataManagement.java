@@ -32,9 +32,8 @@ public class DataManagement {
 				String row;
 				csvReader.readLine();
 				while ((row = csvReader.readLine()) != null) {
-					File verification = new File(row);
-					if(!verification.exists()) {
-						throw new IOException("Wrong path");
+					if(row.equals(location)) {
+						throw new IOException("File Path already exists in CSV");
 					}
 				}
 				csvReader.close();
