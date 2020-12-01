@@ -23,8 +23,8 @@ public class DataManagement {
 	}
 	
 	
-	public static void addGame(String user, String location) throws IOException{
-		if(!(user.equals(null))) {
+	public static void addGame(String user, String location) throws DuplicatePathException, IOException {
+		if(user != null) {
 			String loc = user + ".csv";
 			File csvFile = new File(loc);
 			if (csvFile.isFile()) {
@@ -33,7 +33,7 @@ public class DataManagement {
 				csvReader.readLine();
 				while ((row = csvReader.readLine()) != null) {
 					if(row.equals(location)) {
-						throw new IOException("File Path already exists in CSV");
+						throw new DuplicatePathException("File Path already added");
 					}
 				}
 				csvReader.close();
@@ -47,25 +47,34 @@ public class DataManagement {
 		}
 	}
 	public static void deleteGame(String user, String location) throws IOException{
-		File csvFile = new File(path);
-		File tempCSV = new File(csvFile.getAbsolutePath() + ".tmp");
-		if (csvFile.isFile()) {
-			BufferedReader csvReader = new BufferedReader(new FileReader(csvFile));
-			BufferedWriter csvWriter = new BufferedWriter(new FileWriter(csvFile));
-			
-			String row;
-			//csvReader.readLine();
-			while ((row = csvReader.readLine()) != null) {
-				String[] data = row.split(",");
-				if(data[0].equals(user) && data[1].equals(location)) continue; {
-					csvWriter.write(row);
+		if(user != null) {
+			String loc = user + ".csv";
+			File csvFile = new File(loc);
+			if (csvFile.isFile()) {
+				BufferedReader csvReader = new BufferedReader(new FileReader(loc));
+				String row;
+				csvReader.readLine();
+				ArrayList<String> gameList = new ArrayList<String>();
+				while ((row = csvReader.readLine()) != null) {
+					if(!row.equals(location)) {
+						gameList.add(row);
+						
+					}
 				}
+				csvReader.close();
+				FileWriter csvWriter = new FileWriter(loc);
+				
+				csvWriter.append("GamePath");
+				csvWriter.append("\n");
+				for (int i = 0; i < gameList.size(); i++) {
+					csvWriter.append(gameList.get(i));
+					csvWriter.append("\n");
+					
+				}
+				csvWriter.flush();
+				csvWriter.close();
 			}
-			csvWriter.close();
-			csvReader.close();
 		}
-		boolean success = tempCSV.renameTo(csvFile);
-		System.out.println(success);
 		
 	}
 }
