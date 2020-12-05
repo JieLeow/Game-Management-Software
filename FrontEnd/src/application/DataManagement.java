@@ -24,7 +24,7 @@ public class DataManagement {
 	}
 	
 	
-	public static void addGame(String user, String location) throws DuplicatePathException, IOException {
+	public static void addGame(String user, String location, String game) throws DuplicatePathException, IOException {
 		if(user != null) {
 			String loc = user + ".csv";
 			File csvFile = new File(loc);
@@ -33,21 +33,27 @@ public class DataManagement {
 				String row;
 				csvReader.readLine();
 				while ((row = csvReader.readLine()) != null) {
-					if(row.equals(location)) {
+					String[] data = row.split(",");
+					String gamePath = data[1];
+					if(gamePath.equals(location)) {
 						throw new DuplicatePathException("File Path already added");
 					}
 				}
 				csvReader.close();
+				
 			}
 			FileWriter csvWriter = new FileWriter(loc, true);
+			csvWriter.append(game);
+			csvWriter.append(",");
 			csvWriter.append(location);
 			csvWriter.append("\n");
-
+			
 			csvWriter.flush();
 			csvWriter.close();
 		}
 	}
-	public static void deleteGame(String user, String location) throws IOException{
+	
+	public static void deleteGame(String user, String location) throws IOException {
 		if(user != null) {
 			String loc = user + ".csv";
 			File csvFile = new File(loc);
@@ -57,14 +63,17 @@ public class DataManagement {
 				csvReader.readLine();
 				ArrayList<String> gameList = new ArrayList<String>();
 				while ((row = csvReader.readLine()) != null) {
-					if(!row.equals(location)) {
+					String[] data = row.split(",");
+					String gamePath = data[1];
+					if(!gamePath.equals(location)) {
 						gameList.add(row);
 						
 					}
 				}
 				csvReader.close();
 				FileWriter csvWriter = new FileWriter(loc);
-				
+				csvWriter.append("Game");
+				csvWriter.append(",");
 				csvWriter.append("GamePath");
 				csvWriter.append("\n");
 				for (int i = 0; i < gameList.size(); i++) {
@@ -76,6 +85,5 @@ public class DataManagement {
 				csvWriter.close();
 			}
 		}
-		
 	}
 }
