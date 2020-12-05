@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.BufferedReader;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -88,6 +89,9 @@ public class SampleController implements Initializable{
 	//table where the shortcuts would be added to
 	@FXML
 	private TableView<Program> table1;
+	
+//	//list of programs added by user;
+//	ObservableList<Program> programList;
 	
 	//stores current user logged in
 	private static String currentUser;
@@ -236,7 +240,12 @@ public class SampleController implements Initializable{
 					mainPage.start(stage);
 					
 					//retrieve user shortcuts to mainpage
+					System.out.println("currentUser is " + currentUser);
+					System.out.println(currentUser.concat(".csv"));
+					
+					//this line has error, needs to debugg
 					getUserShortcuts(currentUser.concat(".csv"));
+					
 				}
 				else {
 					createAlert("Incorrect Password", "Your password is incorrect, Please ensure there are no typos");
@@ -264,7 +273,7 @@ public class SampleController implements Initializable{
 				GMS_HomePage mainPage = new GMS_HomePage();
 				mainPage.start(stage);
 				//retrieve user shortcuts to mainpage
-//				getUserShortcuts(currentUser.concat(".csv"));
+				getUserShortcuts(currentUser.concat(".csv"));
 			}
 			else {
 				createAlert("Incorrect Password", "Your password is incorrect, Please ensure there are no typos");
@@ -285,6 +294,7 @@ public class SampleController implements Initializable{
 		Stage stage = new Stage();
 		Main loginPage = new Main();
 		loginPage.start(stage);
+		currentUser = null; //resets the currentUser
 	}
 
 //	public void addShortcut() {
@@ -313,8 +323,6 @@ public class SampleController implements Initializable{
 	
 	//add a program shortcut to the list in homescreen using the add button 
 	public void chooseFile(ActionEvent event) {
-	
-		System.out.println(currentUser);
 		
 		String filePath, fileName;
 		FileChooser fileChooser = new FileChooser();
@@ -330,12 +338,21 @@ public class SampleController implements Initializable{
 		
 		try {
 			System.out.println(currentUser);
-			DataManagement.addGame(currentUser, filePath);
+			if(filePath != null) {
+				DataManagement.addGame(currentUser, filePath);
+			}
+			
+		}
+		catch(DuplicatePathException e) {
+			System.out.println("Game was already added");
+			createAlert("Duplicate Game Added", "That game is already in your list! You need to try something new.");
+			
 		}
 		catch(IOException e) {
 			e.printStackTrace();
 		}
 		
+		//ERROR HERE TOO
 		getUserShortcuts(currentUser.concat(".csv"));
 		
 
@@ -346,33 +363,56 @@ public class SampleController implements Initializable{
 		
 	}
 	
-
-	
 	//remove selected program shortcut in the list in homescreen using the delete button
 	public void removeFile(ActionEvent event) {
 		
 		Program selectedProgram = table1.getSelectionModel().getSelectedItem();
+		String selectedPath = selectedProgram.getProgramDirectory().trim();
+		//selectedPath = selectedPath.replace("\\", "\\\\"); //https://stackoverflow.com/questions/17673745/file-path-issue-with
+		
+		
+		//TODO: check for not selected items/empty table list
+		
+		
+		System.out.println("Selected path is" + selectedPath);
+		
+		
 		
 		if(selectedProgram != null) {
 			table1.getItems().remove(selectedProgram);
 		}
+		else { //why dead/wont execute?
+			this.createAlert("Program not found", "You either have a empty list, or you have not selected any programs");
+		}
+		
 		
 		//TODO: handle runtime nullpointer exception
 	
-		String selectedPath = selectedProgram.getProgramDirectory();
+		
 		//check from user csv file, loop through the programs by name and remove.
 		//calls delete game function.
+		try {
+			DataManagement.deleteGame(currentUser, selectedPath);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
+		//then fetch data again from user's csv
+		getUserShortcuts(currentUser.concat(".csv"));
 	}
 	
 	public void getUserShortcuts(String userCsv) {
 		//called when user logs in, add files, or remove files;
 	
-		ObservableList<Program> data = table1.getItems(); //TODO: why null?
-		System.out.println(table1);
-//		data.clear();
-		System.out.println(table1.getItems());
+		ObservableList<Program> data = FXCollections.observableArrayList();
+		
+//		System.out.println("What is table 1: " + table1);  //TODO: IT'S NULL??
+		
+		data.clear();
+//		System.out.println(table1.getItems());
 		String gamePathRow; 
+		
 		//loop through user's csv file and retrieve game data to tableView
 		try {
 			BufferedReader gameFileReader = new BufferedReader(new FileReader(userCsv));
@@ -387,6 +427,10 @@ public class SampleController implements Initializable{
 			e.printStackTrace();
 		}
 		
+		table1.setItems(data);  //TODO: fix: table 1 is null when first logged in
+		for(Program e: data) {
+			System.out.println(e.getProgramDirectory());
+		}
 	}
 
 	
