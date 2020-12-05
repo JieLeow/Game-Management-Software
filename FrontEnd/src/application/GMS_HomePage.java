@@ -2,8 +2,10 @@ package application;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -15,6 +17,7 @@ public class GMS_HomePage extends Application {
 	private double xOffset = 0;
 	private double yOffset = 0;
 
+
 	@Override
 	public void start(Stage stage) {
 		try {
@@ -24,7 +27,7 @@ public class GMS_HomePage extends Application {
 			stage.setScene(scene);
 			stage.initStyle(StageStyle.UNDECORATED);
 			stage.getIcons().add(new Image(getClass().getResourceAsStream("controller2.png")));
-			
+
 			root.setOnMousePressed(new EventHandler<MouseEvent>(){
 				public void handle(MouseEvent event) {
 					xOffset = event.getSceneX();

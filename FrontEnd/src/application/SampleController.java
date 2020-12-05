@@ -69,15 +69,15 @@ public class SampleController implements Initializable{
 	// button to add shortcuts into list on homescreen
 	@FXML
 	private Button add;
-	
+
 	//button to delete selected shortcuts in the list on homescreen
 	@FXML
 	private Button delete;
-	
+
 	//button to move a shortcut up in the list
 	@FXML
 	private Button up;
-	
+
 	//button to move a shortcut down in the list
 	@FXML
 	private Button down;
@@ -85,17 +85,17 @@ public class SampleController implements Initializable{
 	// hyperlink to registration page
 	@FXML
 	private Hyperlink register;
-	
+
 	//table where the shortcuts would be added to
 	@FXML
-	private TableView<Program> table1;
-	
-//	//list of programs added by user;
-//	ObservableList<Program> programList;
-	
+	private TableView<Program> table1 = new TableView<Program>();
+
+	//	//list of programs added by user;
+	//	ObservableList<Program> programList;
+
 	//stores current user logged in
 	private static String currentUser;
-	
+
 
 	//Close current window
 	@FXML
@@ -163,13 +163,13 @@ public class SampleController implements Initializable{
 				}
 				else {
 					Credentials.addCredentials(regname.getText(), regpass.getText());
-					
+
 					//create user profile csv if not exists
 					File userFile = new File(regname.getText().concat(".csv"));
 					if(!userFile.isFile()) {
 						DataManagement.createGamesPathFile(regname.getText());
 					}
-					
+
 					createAlert("Registration Successful", "You are now part of us! Enter your Username and Password at the Login Page");
 					handleCloseButtonAction(kev);
 					Main loginPage = new Main();
@@ -202,13 +202,13 @@ public class SampleController implements Initializable{
 			}
 			else {
 				Credentials.addCredentials(regname.getText(), regpass.getText());
-				
+
 				//create user profile csv if not exists
 				File userFile = new File(regname.getText().concat(".csv"));
 				if(!userFile.isFile()) {
 					DataManagement.createGamesPathFile(regname.getText());
 				}
-				
+
 				createAlert("Registration Successful", "You are now part of us! Enter your Username and Password at the Login Page");
 				handleCloseButtonAction(event);
 				Main loginPage = new Main();
@@ -236,16 +236,17 @@ public class SampleController implements Initializable{
 					currentUser = uname.getText();
 					handleCloseButtonAction(kev);
 					GMS_HomePage mainPage = new GMS_HomePage();
-//					GMS_HomePage mainPage = new GMS_HomePage(uname.getText());
+					//					GMS_HomePage mainPage = new GMS_HomePage(uname.getText());
+					//getUserShortcuts(currentUser.concat(".csv"));
 					mainPage.start(stage);
-					
+
 					//retrieve user shortcuts to mainpage
 					System.out.println("currentUser is " + currentUser);
 					System.out.println(currentUser.concat(".csv"));
-					
+
 					//this line has error, needs to debugg
 					getUserShortcuts(currentUser.concat(".csv"));
-					
+
 				}
 				else {
 					createAlert("Incorrect Password", "Your password is incorrect, Please ensure there are no typos");
@@ -297,33 +298,10 @@ public class SampleController implements Initializable{
 		currentUser = null; //resets the currentUser
 	}
 
-//	public void addShortcut() {
-//		Stage stage = new Stage();
-//		try {
-//			File f = new File("tableData.csv");
-//			if(!f.isFile()) {
-//				GMSTable.createTableFile();
-//			}
-//			FileChooser fileChooser = new FileChooser();
-//			fileChooser.setTitle("Select Game Shortcut");
-//			File shortcut = fileChooser.showOpenDialog(stage);
-//			String fileName;
-//			if (shortcut != null) {
-//				String fileName = shortcut.getAbsolutePath();
-//			}
-//			GMSTable.addShortcut(fileName);
-//		}
-//		catch(DuplicateShortcutException e) {
-//			createAlert("Registration Error", "Username Already Exists. Please try a different username");
-//
-//		}catch(IOException e) {
-//			e.printStackTrace();
-//	}
-//	}
-	
+
 	//add a program shortcut to the list in homescreen using the add button 
 	public void chooseFile(ActionEvent event) {
-		
+
 		String filePath, fileName;
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Resource File");
@@ -334,61 +312,61 @@ public class SampleController implements Initializable{
 		}else {
 			filePath = null;
 			fileName = null;
-			}
-		
+		}
+
 		try {
 			System.out.println(currentUser);
 			if(filePath != null) {
 				DataManagement.addGame(currentUser, filePath);
 			}
-			
+
 		}
 		catch(DuplicatePathException e) {
 			System.out.println("Game was already added");
 			createAlert("Duplicate Game Added", "That game is already in your list! You need to try something new.");
-			
+
 		}
 		catch(IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		//ERROR HERE TOO
 		getUserShortcuts(currentUser.concat(".csv"));
-		
 
 
-		
-		
+
+
+
 		//TODO: also, need to load the files to the mainPage upon login. NOT IN THIS METHOD THO
-		
+
 	}
-	
+
 	//remove selected program shortcut in the list in homescreen using the delete button
 	public void removeFile(ActionEvent event) {
-		
+
 		Program selectedProgram = table1.getSelectionModel().getSelectedItem();
 		String selectedPath = selectedProgram.getProgramDirectory().trim();
 		//selectedPath = selectedPath.replace("\\", "\\\\"); //https://stackoverflow.com/questions/17673745/file-path-issue-with
-		
-		
+
+
 		//TODO: check for not selected items/empty table list
-		
-		
+
+
 		System.out.println("Selected path is" + selectedPath);
-		
-		
-		
+
+
+
 		if(selectedProgram != null) {
 			table1.getItems().remove(selectedProgram);
 		}
 		else { //why dead/wont execute?
 			this.createAlert("Program not found", "You either have a empty list, or you have not selected any programs");
 		}
-		
-		
+
+
 		//TODO: handle runtime nullpointer exception
-	
-		
+
+
 		//check from user csv file, loop through the programs by name and remove.
 		//calls delete game function.
 		try {
@@ -397,58 +375,58 @@ public class SampleController implements Initializable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		//then fetch data again from user's csv
 		getUserShortcuts(currentUser.concat(".csv"));
 	}
-	
+
 	public void getUserShortcuts(String userCsv) {
 		//called when user logs in, add files, or remove files;
-	
+
+		//table1 = new TableView<Program>();
 		ObservableList<Program> data = FXCollections.observableArrayList();
-		
-//		System.out.println("What is table 1: " + table1);  //TODO: IT'S NULL??
-		
+
+		//		System.out.println("What is table 1: " + table1);  //TODO: IT'S NULL??
+
 		data.clear();
-//		System.out.println(table1.getItems());
+		//		System.out.println(table1.getItems());
 		String gamePathRow; 
-		
+
 		//loop through user's csv file and retrieve game data to tableView
 		try {
 			BufferedReader gameFileReader = new BufferedReader(new FileReader(userCsv));
 			gamePathRow = gameFileReader.readLine(); //reads first line
 			while((gamePathRow = gameFileReader.readLine()) != null) {
-				
+
 				data.add(new Program("test", gamePathRow, "0", "0")); //adds program to table view
 			}
-			
-			
+
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		table1.setItems(data);  //TODO: fix: table 1 is null when first logged in
-		for(Program e: data) {
-			System.out.println(e.getProgramDirectory());
-		}
+		System.out.println("I am here:"+data);
+		table1.setItems(data);
 	}
 
-	
+
 	public void moveProgramUp(ActionEvent event) {
-		
-		
+
+
 	}
-	
-	
+
+
 	public void moveProgramDown(ActionEvent event) {
-	
-		
+
+
 	}
-	
+
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
+		
+		
 
 	}
 }
