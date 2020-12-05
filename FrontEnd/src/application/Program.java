@@ -6,16 +6,15 @@ public class Program {
    private final SimpleStringProperty programName = new SimpleStringProperty("");
    private final SimpleStringProperty programDirectory = new SimpleStringProperty("");
    private final SimpleStringProperty gameStatus = new SimpleStringProperty("");
-   private final SimpleStringProperty hoursPlayed = new SimpleStringProperty("");
+//   private final SimpleStringProperty hoursPlayed = new SimpleStringProperty("");
 
 public Program() {
-        this("", "", "", "");
+        this("", "", "");
     }
  
-    public Program(String programName, String programDirectory, String hoursPlayed, String gameStatus) {
+    public Program(String programName, String programDirectory, String gameStatus) {
         setProgramName(programName);
         setProgramDirectory(programDirectory);
-        setHoursPlayed(hoursPlayed);
         setGameStatus(gameStatus);
     }
 
@@ -35,13 +34,13 @@ public Program() {
         programDirectory.set(fName);
     }
     
-    public String getHoursPlayed() {
-        return hoursPlayed.get();
-    }
-    
-    public void setHoursPlayed(String fName) {
-        hoursPlayed.set(fName);
-    }
+//    public String getHoursPlayed() {
+//        return hoursPlayed.get();
+//    }
+//    
+//    public void setHoursPlayed(String fName) {
+//        hoursPlayed.set(fName);
+//    }
     
     public String getGameStatus() {
         return gameStatus.get();

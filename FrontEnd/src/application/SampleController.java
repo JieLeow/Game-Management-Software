@@ -315,9 +315,12 @@ public class SampleController implements Initializable{
 		}
 
 		try {
-			System.out.println(currentUser);
+//			System.out.println(currentUser);
 			if(filePath != null) {
-				DataManagement.addGame(currentUser, filePath);
+				if(filePath.contains(".exe") || filePath.contains(".jar")) 
+					DataManagement.addGame(currentUser, filePath,fileName);
+				else
+					createAlert("Invalid File Extension", "Please add only games with jar and exe extensions");
 			}
 
 		}
@@ -330,7 +333,7 @@ public class SampleController implements Initializable{
 			e.printStackTrace();
 		}
 
-		//ERROR HERE TOO
+		//repopulate the tableView with latest games in user.csv
 		getUserShortcuts(currentUser.concat(".csv"));
 
 
@@ -345,23 +348,23 @@ public class SampleController implements Initializable{
 	public void removeFile(ActionEvent event) {
 
 		Program selectedProgram = table1.getSelectionModel().getSelectedItem();
-		String selectedPath = selectedProgram.getProgramDirectory().trim();
-		//selectedPath = selectedPath.replace("\\", "\\\\"); //https://stackoverflow.com/questions/17673745/file-path-issue-with
-
-
-		//TODO: check for not selected items/empty table list
-
-
-		System.out.println("Selected path is" + selectedPath);
-
-
-
-		if(selectedProgram != null) {
+		String selectedPath;
+		
+		if(selectedProgram == null) {
+			createAlert("No File Selected", "Your list is either empty or you have not selected a game yet.");
+			return;
+		}else {
+			selectedPath = selectedProgram.getProgramDirectory().trim();
 			table1.getItems().remove(selectedProgram);
 		}
-		else { //why dead/wont execute?
-			this.createAlert("Program not found", "You either have a empty list, or you have not selected any programs");
-		}
+		
+		//selectedPath = selectedPath.replace("\\", "\\\\"); //https://stackoverflow.com/questions/17673745/file-path-issue-with
+
+//		System.out.println("Selected path is: " + selectedPath);
+
+//		if(selectedPath == null) {
+//			createAlert("Empty List", "Your list is empty. Add more games and make your life better!");
+//		}
 
 
 		//TODO: handle runtime nullpointer exception
@@ -395,28 +398,34 @@ public class SampleController implements Initializable{
 		//loop through user's csv file and retrieve game data to tableView
 		try {
 			BufferedReader gameFileReader = new BufferedReader(new FileReader(userCsv));
-			gamePathRow = gameFileReader.readLine(); //reads first line
+			gameFileReader.readLine(); //read to skip first (header) line
 			while((gamePathRow = gameFileReader.readLine()) != null) {
+				
+				String[] gameInfo = gamePathRow.split(",");
+				String gameName = gameInfo[0];
+				String gamePath = gameInfo[1];
+				
 
-				data.add(new Program("test", gamePathRow, "0", "0")); //adds program to table view
+				data.add(new Program(gameName, gamePath, "Inactive")); //adds program to table view
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		table1.setItems(data);
 	}
+	
+	
 
-
-	public void moveProgramUp(ActionEvent event) {
-
-
-	}
-
-
-	public void moveProgramDown(ActionEvent event) {
-
-
-	}
+//	public void moveProgramUp(ActionEvent event) {
+//
+//
+//	}
+//
+//
+//	public void moveProgramDown(ActionEvent event) {
+//
+//
+//	}
 
 
 	@Override
