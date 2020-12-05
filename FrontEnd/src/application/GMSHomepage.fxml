@@ -56,6 +56,11 @@
                         <Font size="30.0" />
                      </font>
                   </Button>
+                  <Label fx:id="unameLabel" layoutX="90.0" layoutY="174.0" text="Label" textFill="WHITE">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
          </children>
@@ -92,27 +97,21 @@
                      </font>
                   </Label>
                   <Circle fill="#f80000" layoutX="619.0" layoutY="76.0" radius="17.0" stroke="BLACK" strokeType="INSIDE" />
-                  <TableView fx:id="table1" layoutX="17.0" layoutY="119.0" prefHeight="527.0" prefWidth="718.0">
+                  <TableView fx:id="table1" layoutX="17.0" layoutY="119.0" prefHeight="527.0" prefWidth="718.0" stylesheets="@application.css">
                     <columns>
-                      <TableColumn prefWidth="170.0" text="Program Name">
+                      <TableColumn prefWidth="125.0" text="Program Name">
                       	<cellValueFactory>
                       		<PropertyValueFactory property="programName" />
         				</cellValueFactory>
         			  </TableColumn>
  	
-                      <TableColumn prefWidth="300.0" text="Program Directory">
+                      <TableColumn prefWidth="458.0" text="Program Directory">
                        	<cellValueFactory>
                       		<PropertyValueFactory property="programDirectory" />
         				</cellValueFactory>
 					  </TableColumn>
-					  
-                      <TableColumn prefWidth="124.0" text="Hours Played">
-                       	<cellValueFactory>
-                      		<PropertyValueFactory property="hoursPlayed" />
-        				</cellValueFactory>
-                      </TableColumn>
                       
-                      <TableColumn prefWidth="123.0" text="Game Status">
+                      <TableColumn prefWidth="134.0" text="Game Status">
                       	<cellValueFactory>
                       		<PropertyValueFactory property="gameStatus" />
         				</cellValueFactory>
