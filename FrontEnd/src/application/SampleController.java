@@ -22,6 +22,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -58,6 +59,10 @@ public class SampleController implements Initializable{
 	@FXML
 	private TextField uname;
 
+	// user name on homepage
+	@FXML
+	private Label unameLabel;
+	
 	// password on login screen
 	@FXML
 	private PasswordField pass;
