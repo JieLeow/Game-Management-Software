@@ -400,12 +400,9 @@ public class SampleController implements Initializable{
 
 				data.add(new Program("test", gamePathRow, "0", "0")); //adds program to table view
 			}
-
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("I am here:"+data);
 		table1.setItems(data);
 	}
 
