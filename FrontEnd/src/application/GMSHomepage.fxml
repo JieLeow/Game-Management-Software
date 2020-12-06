@@ -36,7 +36,7 @@
                         <Insets left="44.0" />
                      </padding>
                   </Label>
-                  <Button layoutY="249.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="250.0" stylesheets="@application.css" text="Play" textFill="WHITE">
+                  <Button layoutY="249.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="250.0" stylesheets="@application.css" text="Play"  onAction="#runGame" textFill="WHITE">
                      <font>
                         <Font size="30.0" />
                      </font>
@@ -106,12 +106,6 @@
         				</cellValueFactory>
 					  </TableColumn>
 					  
-                      <TableColumn prefWidth="124.0" text="Hours Played">
-                       	<cellValueFactory>
-                      		<PropertyValueFactory property="hoursPlayed" />
-        				</cellValueFactory>
-                      </TableColumn>
-                      
                       <TableColumn prefWidth="123.0" text="Game Status">
                       	<cellValueFactory>
                       		<PropertyValueFactory property="gameStatus" />
@@ -122,9 +116,6 @@
                 	<items>
                 		<FXCollections fx:factory="observableArrayList">
 					    </FXCollections>
-					    
-					         
-					   
                 	</items>
                   
                   </TableView>
