@@ -22,6 +22,6 @@ public abstract class FileType
     
     public abstract boolean validFileExtension(String dir);
     
-    
+    public abstract void terminate(String dir);
     
 }

@@ -52,12 +52,12 @@ public class HomePageController implements Initializable{
 	private Button closeButton;
 
 	private String userName;
-	
-//	private ObservableList<Program> data;
+
+	//	private ObservableList<Program> data;
 	public static ObservableList<Program> data;
-	
+
 	public static Thread gameStatusThread;
-	
+
 	public static boolean threadActive;
 
 	public String getUserName() {
@@ -95,15 +95,10 @@ public class HomePageController implements Initializable{
 	@FXML
 	public void handleCloseButtonAction(Event event) {
 		Stage stage = (Stage) closeButton.getScene().getWindow();
-		
+
 		threadActive = false;
-		try {
-			HomePageController.gameStatusThread.join();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+
+
 		stage.close();
 	}	
 
@@ -134,7 +129,7 @@ public class HomePageController implements Initializable{
 		try {
 			System.out.println(SampleController.currentUser);
 			if(filePath != null) {
-				
+
 				//update to ethan's method
 				if(ProgramFile.validFileExtension(filePath)) {
 					DataManagement.addGame(SampleController.currentUser, filePath,fileName);
@@ -144,7 +139,7 @@ public class HomePageController implements Initializable{
 					System.out.println("File Path that you want to add is:" + filePath );
 
 				}
-			
+
 			}
 		}
 		catch(DuplicatePathException e) {
@@ -191,14 +186,7 @@ public class HomePageController implements Initializable{
 
 	public void getUserShortcuts(String userCsv) {
 		//called when user logs in, add files, or remove files;
-
-		//table1 = new TableView<Program>();
 		data = FXCollections.observableArrayList();
-
-		//		System.out.println("What is table 1: " + table1);  //TODO: IT'S NULL??
-
-		data.clear();
-		//		System.out.println(table1.getItems());
 		String gamePathRow; 
 
 		//loop through user's csv file and retrieve game data to tableView
@@ -220,10 +208,34 @@ public class HomePageController implements Initializable{
 		table1.setItems(data);
 	}
 
+
+	@FXML
+	public void terminateGame() {
+		ProgramFile file;
+
+		Program selectedProgram = table1.getSelectionModel().getSelectedItem();
+		String selectedPath;
+		if(selectedProgram == null) {
+			createAlert("No File Selected", "Your list is either empty or you have not selected a game yet.");
+			return;
+		}else {
+			selectedPath = selectedProgram.getProgramDirectory().trim();
+			System.out.println("Selected path to be executed is:" + selectedPath);
+			try {
+				file = new ProgramFile(selectedPath);
+				file.terminate();	
+			}
+			catch(UnsupportedFileExtension e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	//method to allow user to execute a selected game in the tableView
+	@FXML
 	public void runGame() {
 		ProgramFile file;
-		
+
 		Program selectedProgram = table1.getSelectionModel().getSelectedItem();
 		String selectedPath;
 		if(selectedProgram == null) {
@@ -239,12 +251,12 @@ public class HomePageController implements Initializable{
 			catch(UnsupportedFileExtension e) {
 				e.printStackTrace();
 			}
-			
+
 		}
-		
+
 	}
-	
-	
+
+
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {

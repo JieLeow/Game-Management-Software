@@ -25,9 +25,7 @@ public class GameStatusThread implements Runnable
             }
             System.out.println("Thread stopped");
             
-            synchronized(HomePageController.gameStatusThread) {
-            	HomePageController.gameStatusThread.wait();
-            }
+            Thread.currentThread().interrupt();
            
         } 
         catch (Exception e) 
