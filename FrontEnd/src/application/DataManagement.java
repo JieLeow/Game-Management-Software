@@ -18,7 +18,7 @@ public class DataManagement {
 		String loc = user + ".csv";
 		FileWriter csvWriter = new FileWriter(loc);
 		csvWriter.append("Game");
-		csvWriter.append(",")
+		csvWriter.append(",");
 		csvWriter.append("GamePath");
 		csvWriter.append("\n");
 		csvWriter.flush();
