@@ -14,7 +14,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" style="-fx-border-color: #000000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.HomePageController">
@@ -56,7 +55,7 @@
                         <Font size="30.0" />
                      </font>
                   </Button>
-                  <Label fx:id="unameLabel" layoutX="90.0" layoutY="174.0" text="Label" textFill="WHITE">
+                  <Label fx:id="label1" layoutX="83.0" layoutY="174.0" text="Label" textFill="WHITE">
                      <font>
                         <Font size="30.0" />
                      </font>
@@ -71,33 +70,7 @@
          <children>
             <Pane prefHeight="700.0" prefWidth="748.0">
                <children>
-                  <Label layoutX="44.0" layoutY="-24.0" prefHeight="104.0" prefWidth="175.0" text="Total Games">
-                     <font>
-                        <Font size="30.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="288.0" layoutY="-24.0" prefHeight="104.0" prefWidth="175.0" text="Hours Played">
-                     <font>
-                        <Font size="30.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="115.0" layoutY="58.0" text="25" textFill="#00cc00">
-                     <font>
-                        <Font size="30.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="536.0" layoutY="-24.0" prefHeight="104.0" prefWidth="175.0" text="Game Status">
-                     <font>
-                        <Font size="30.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="345.0" layoutY="58.0" text="5281" textFill="#00cc00">
-                     <font>
-                        <Font size="30.0" />
-                     </font>
-                  </Label>
-                  <Circle fill="#f80000" layoutX="619.0" layoutY="76.0" radius="17.0" stroke="BLACK" strokeType="INSIDE" />
-                  <TableView fx:id="table1" layoutX="16.0" layoutY="119.0" prefHeight="527.0" prefWidth="718.0" stylesheets="@application.css">
+                  <TableView fx:id="table1" layoutX="16.0" layoutY="14.0" prefHeight="633.0" prefWidth="718.0" stylesheets="@application.css">
                     <columns>
                       <TableColumn prefWidth="125.0" text="Program Name">
                       	<cellValueFactory>

@@ -43,6 +43,9 @@ public class HomePageController implements Initializable{
 	@FXML
 	private TableView<Program> table1 = new TableView<Program>();
 
+	@FXML
+	private Label label1;
+	
 	@FXML 
 	private Button minimizeButton;
 
@@ -202,6 +205,7 @@ public class HomePageController implements Initializable{
 		userName = SampleController.currentUser;
 		System.out.println("User is: "+SampleController.currentUser);
 		getUserShortcuts(userName.concat(".csv"));
+		label1.setText(userName);
 
 	}
 
