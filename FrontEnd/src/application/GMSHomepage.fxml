@@ -36,7 +36,7 @@
                         <Insets left="44.0" />
                      </padding>
                   </Label>
-                  <Button layoutY="332.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="250.0" stylesheets="@application.css" text="Play" textFill="WHITE">
+                  <Button layoutY="332.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="250.0" stylesheets="@application.css" text="Play" onAction="#runGame" textFill="WHITE">
                      <font>
                         <Font size="30.0" />
                      </font>
