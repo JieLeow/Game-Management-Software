@@ -233,10 +233,8 @@ public class HomePageController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		userName = SampleController.currentUser;
-		System.out.println("User is: "+SampleController.currentUser);
 		getUserShortcuts(userName.concat(".csv"));
 		label1.setText(userName);
-
 	}
 
 }

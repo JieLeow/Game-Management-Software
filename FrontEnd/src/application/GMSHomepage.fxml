@@ -35,7 +35,7 @@
                         <Insets left="44.0" />
                      </padding>
                   </Label>
-                  <Button layoutY="332.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="250.0" stylesheets="@application.css" text="Play" onAction="#runGame" textFill="WHITE">
+                  <Button layoutY="332.0" mnemonicParsing="false" onAction="#runGame" prefHeight="80.0" prefWidth="250.0" stylesheets="@application.css" text="Play" textFill="WHITE">
                      <font>
                         <Font size="30.0" />
                      </font>
@@ -55,7 +55,7 @@
                         <Font size="30.0" />
                      </font>
                   </Button>
-                  <Label fx:id="label1" layoutX="83.0" layoutY="174.0" text="Label" textFill="WHITE">
+                  <Label fx:id="label1" layoutX="69.0" layoutY="174.0" prefHeight="45.0" prefWidth="160.0" stylesheets="@application.css" text="Label" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font size="30.0" />
                      </font>
