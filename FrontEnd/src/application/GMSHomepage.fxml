@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" style="-fx-border-color: #000000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" style="-fx-border-color: #000000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.HomePageController">
    <left>
       <VBox prefHeight="560.0" prefWidth="250.0" style="-fx-background-color: #00CC00;" BorderPane.alignment="CENTER">
          <children>
@@ -36,26 +36,31 @@
                         <Insets left="44.0" />
                      </padding>
                   </Label>
-                  <Button layoutY="249.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="250.0" stylesheets="@application.css" text="Play"  onAction="#runGame" textFill="WHITE">
+                  <Button layoutY="332.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="250.0" stylesheets="@application.css" text="Play" textFill="WHITE">
                      <font>
                         <Font size="30.0" />
                      </font>
                   </Button>
-                  <Button layoutY="549.0" mnemonicParsing="false" onAction="#backToLogin" prefHeight="100.0" prefWidth="250.0" stylesheets="@application.css" text="Logout" textFill="WHITE">
+                  <Button layoutY="572.0" mnemonicParsing="false" onAction="#backToLogin" prefHeight="80.0" prefWidth="250.0" stylesheets="@application.css" text="Logout" textFill="WHITE">
                      <font>
                         <Font size="30.0" />
                      </font>
                   </Button>
-                  <Button fx:id="add" layoutY="349.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="100.0" prefWidth="250.0" stylesheets="@application.css" text="Add" textFill="WHITE">
+                  <Button fx:id="add" layoutY="412.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="80.0" prefWidth="250.0" stylesheets="@application.css" text="Add" textFill="WHITE">
                      <font>
                         <Font size="30.0" />
                      </font>
                   </Button>
-                  <Button fx:id="delete" layoutY="449.0" mnemonicParsing="false" onAction="#removeFile" prefHeight="100.0" prefWidth="250.0" stylesheets="@application.css" text="Delete" textFill="WHITE">
+                  <Button fx:id="delete" layoutY="492.0" mnemonicParsing="false" onAction="#removeFile" prefHeight="80.0" prefWidth="250.0" stylesheets="@application.css" text="Delete" textFill="WHITE">
                      <font>
                         <Font size="30.0" />
                      </font>
                   </Button>
+                  <Label fx:id="unameLabel" layoutX="90.0" layoutY="174.0" text="Label" textFill="WHITE">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
          </children>
@@ -92,21 +97,21 @@
                      </font>
                   </Label>
                   <Circle fill="#f80000" layoutX="619.0" layoutY="76.0" radius="17.0" stroke="BLACK" strokeType="INSIDE" />
-                  <TableView fx:id="table1" layoutX="17.0" layoutY="119.0" prefHeight="527.0" prefWidth="718.0">
+                  <TableView fx:id="table1" layoutX="16.0" layoutY="119.0" prefHeight="527.0" prefWidth="718.0" stylesheets="@application.css">
                     <columns>
-                      <TableColumn prefWidth="170.0" text="Program Name">
+                      <TableColumn prefWidth="125.0" text="Program Name">
                       	<cellValueFactory>
                       		<PropertyValueFactory property="programName" />
         				</cellValueFactory>
         			  </TableColumn>
  	
-                      <TableColumn prefWidth="300.0" text="Program Directory">
+                      <TableColumn prefWidth="458.0" text="Program Directory">
                        	<cellValueFactory>
                       		<PropertyValueFactory property="programDirectory" />
         				</cellValueFactory>
 					  </TableColumn>
-					  
-                      <TableColumn prefWidth="123.0" text="Game Status">
+                      
+                      <TableColumn prefWidth="134.0" text="Game Status">
                       	<cellValueFactory>
                       		<PropertyValueFactory property="gameStatus" />
         				</cellValueFactory>
@@ -116,6 +121,9 @@
                 	<items>
                 		<FXCollections fx:factory="observableArrayList">
 					    </FXCollections>
+					    
+					         
+					   
                 	</items>
                   
                   </TableView>

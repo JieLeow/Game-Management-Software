@@ -22,6 +22,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -58,6 +60,10 @@ public class SampleController implements Initializable{
 	@FXML
 	private TextField uname;
 
+	// user name on homepage
+	@FXML
+	private Label unameLabel;
+	
 	// password on login screen
 	@FXML
 	private PasswordField pass;
@@ -88,16 +94,14 @@ public class SampleController implements Initializable{
 
 	//table where the shortcuts would be added to
 	@FXML
-	private TableView<Program> table1;
+	private TableView<Program> table1 = new TableView<Program>();
 
 	//	//list of programs added by user;
 	//	ObservableList<Program> programList;
 
 	//stores current user logged in
-	private static String currentUser;
+	public static String currentUser;
 	
-	//TODO: maybe add currentUserCSV
-
 
 	//Close current window
 	@FXML
@@ -120,12 +124,6 @@ public class SampleController implements Initializable{
 		Stage stageReg = new Stage();
 		RegisterPage registers = new RegisterPage();
 		registers.start(stageReg);
-	}
-
-	// doesn't work
-	@FXML
-	void hovers() {
-		add.setStyle("button-hover-color: #019101;");
 	}
 
 	/* creates an alert
@@ -187,6 +185,7 @@ public class SampleController implements Initializable{
 	}
 
 	//Handles login procedures if register button is pressed
+	@FXML
 	public void buttonRegister(Event event) {
 		Stage stage = new Stage();
 		try {
@@ -237,17 +236,12 @@ public class SampleController implements Initializable{
 				if(exist) {
 					currentUser = uname.getText();
 					handleCloseButtonAction(kev);
+					//HomePageController mainController = new HomePageController();
+					//mainController.setUserName(currentUser);
 					GMS_HomePage mainPage = new GMS_HomePage();
 					//					GMS_HomePage mainPage = new GMS_HomePage(uname.getText());
 					//getUserShortcuts(currentUser.concat(".csv"));
 					mainPage.start(stage);
-
-					//retrieve user shortcuts to mainpage
-					System.out.println("currentUser is " + currentUser);
-					System.out.println(currentUser.concat(".csv"));
-
-					//this line has error, needs to debugg
-					getUserShortcuts(currentUser.concat(".csv"));
 
 				}
 				else {
@@ -273,10 +267,12 @@ public class SampleController implements Initializable{
 			if(exist) {
 				currentUser = uname.getText();
 				handleCloseButtonAction(event);
+				//HomePageController mainController = new HomePageController();
+				//mainController.setUserName(currentUser);
 				GMS_HomePage mainPage = new GMS_HomePage();
 				mainPage.start(stage);
 				//retrieve user shortcuts to mainpage
-				getUserShortcuts(currentUser.concat(".csv"));
+				//getUserShortcuts(currentUser.concat(".csv"));
 			}
 			else {
 				createAlert("Incorrect Password", "Your password is incorrect, Please ensure there are no typos");
@@ -300,175 +296,12 @@ public class SampleController implements Initializable{
 		currentUser = null; //resets the currentUser
 	}
 
-
-	//add a program shortcut to the list in homescreen using the add button 
-	public void chooseFile(ActionEvent event) {
-
-		String filePath, fileName;
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Open Resource File");
-		File selectedFile = fileChooser.showOpenDialog(null);
-		if(selectedFile != null) {
-			filePath = selectedFile.getAbsolutePath();
-			fileName = selectedFile.getName();
-		}else {
-			filePath = null;
-			fileName = null;
-		}
-
-		try {
-//			System.out.println(currentUser);
-			if(filePath != null) {
-				
-				//update to ethan's method
-				if(ProgramFile.validFileExtension(filePath)) {
-					DataManagement.addGame(currentUser, filePath,fileName);
-				}
-				else {
-					createAlert("Invalid File Extension", "Please add only games with jar and exe extensions");
-					System.out.println("File Path that you want to add is:" + filePath );
-
-				}
-			
-			}
-
-		}
-		catch(DuplicatePathException e) {
-			System.out.println("Game was already added");
-			createAlert("Duplicate Game Added", "That game is already in your list! You need to try something new.");
-
-		}
-		catch(IOException e) {
-			e.printStackTrace();
-		}
-
-		//repopulate the tableView with latest games in user.csv
-		getUserShortcuts(currentUser.concat(".csv"));
-
-
-
-
-
-		//TODO: also, need to load the files to the mainPage upon login. NOT IN THIS METHOD THO
-
-	}
-
-	//remove selected program shortcut in the list in homescreen using the delete button
-	public void removeFile(ActionEvent event) {
-
-		Program selectedProgram = table1.getSelectionModel().getSelectedItem();
-		String selectedPath;
-		
-		if(selectedProgram == null) {
-			createAlert("No File Selected", "Your list is either empty or you have not selected a game yet.");
-			return;
-		}else {
-			selectedPath = selectedProgram.getProgramDirectory().trim();
-			table1.getItems().remove(selectedProgram);
-		}
-		
-		//selectedPath = selectedPath.replace("\\", "\\\\"); //https://stackoverflow.com/questions/17673745/file-path-issue-with
-
-//		System.out.println("Selected path is: " + selectedPath);
-
-//		if(selectedPath == null) {
-//			createAlert("Empty List", "Your list is empty. Add more games and make your life better!");
-//		}
-
-
-		//TODO: handle runtime nullpointer exception
-
-
-		//check from user csv file, loop through the programs by name and remove.
-		//calls delete game function.
-		try {
-			DataManagement.deleteGame(currentUser, selectedPath);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		//then fetch data again from user's csv
-		getUserShortcuts(currentUser.concat(".csv"));
-	}
-
-	public void getUserShortcuts(String userCsv) {
-		//called when user logs in, add files, or remove files;
-
-//		table1 = new TableView<Program>();
-		ObservableList<Program> data = FXCollections.observableArrayList();
-		table1.setItems(data); //table will be updated whenever user make any changes //TODO: it's null
-
-				System.out.println("What is table 1: " + table1);  //TODO: IT'S NULL when logged in??
-
-//		data.clear();
-		//		System.out.println(table1.getItems());
-		String gamePathRow; 
-
-		//loop through user's csv file and retrieve game data to tableView
-		try {
-			BufferedReader gameFileReader = new BufferedReader(new FileReader(userCsv));
-			gameFileReader.readLine(); //read to skip first (header) line
-			while((gamePathRow = gameFileReader.readLine()) != null) {
-				
-				String[] gameInfo = gamePathRow.split(",");
-				String gameName = gameInfo[0];
-				String gamePath = gameInfo[1];
-				
-				//TODO: change Inactive to ENUM/constant
-				data.add(new Program(gameName, gamePath, "Inactive")); //adds program to tableView
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-//		table1.setItems(data);  commented out and placed at line 393 instead
-		
-	
-	}
-	
-	
-	public void runGame() {
-		ProgramFile file;
-		
-		Program selectedProgram = table1.getSelectionModel().getSelectedItem();
-		String selectedPath;
-		if(selectedProgram == null) {
-			createAlert("No File Selected", "Your list is either empty or you have not selected a game yet.");
-			return;
-		}else {
-			selectedPath = selectedProgram.getProgramDirectory().trim();
-			System.out.println("Selected path to be executed is:" + selectedPath);
-			try {
-				file = new ProgramFile(selectedPath);
-				file.execute();	
-			}
-			catch(UnsupportedFileExtension e) {
-				e.printStackTrace();
-			}
-			
-		}
-		
-	}
-	
-
-//	public void moveProgramUp(ActionEvent event) {
-//
-//
-//	}
-//
-//
-//	public void moveProgramDown(ActionEvent event) {
-//
-//
-//	}
-
-
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
-		
-		
+	}
 
+	public String getUserName() {
+		return uname.getText();
 	}
 }
