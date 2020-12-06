@@ -1,6 +1,8 @@
 package application;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -50,6 +52,13 @@ public class HomePageController implements Initializable{
 	private Button closeButton;
 
 	private String userName;
+	
+//	private ObservableList<Program> data;
+	public static ObservableList<Program> data;
+	
+	public static Thread gameStatusThread;
+	
+	public static boolean threadActive;
 
 	public String getUserName() {
 		return userName;
@@ -86,6 +95,15 @@ public class HomePageController implements Initializable{
 	@FXML
 	public void handleCloseButtonAction(Event event) {
 		Stage stage = (Stage) closeButton.getScene().getWindow();
+		
+		threadActive = false;
+		try {
+			HomePageController.gameStatusThread.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		stage.close();
 	}	
 
@@ -175,7 +193,7 @@ public class HomePageController implements Initializable{
 		//called when user logs in, add files, or remove files;
 
 		//table1 = new TableView<Program>();
-		ObservableList<Program> data = FXCollections.observableArrayList();
+		data = FXCollections.observableArrayList();
 
 		//		System.out.println("What is table 1: " + table1);  //TODO: IT'S NULL??
 
@@ -193,7 +211,7 @@ public class HomePageController implements Initializable{
 				String gameName = gameInfo[0];
 				String gamePath = gameInfo[1];
 
-
+				//TODO: fix this, no magic numbers
 				data.add(new Program(gameName, gamePath, "Inactive")); //adds program to table view
 			}
 		} catch (IOException e) {
@@ -226,6 +244,7 @@ public class HomePageController implements Initializable{
 		
 	}
 	
+	
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -236,3 +255,7 @@ public class HomePageController implements Initializable{
 	}
 
 }
+
+
+
+

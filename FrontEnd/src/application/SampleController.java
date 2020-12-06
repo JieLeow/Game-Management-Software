@@ -242,7 +242,9 @@ public class SampleController implements Initializable{
 					//					GMS_HomePage mainPage = new GMS_HomePage(uname.getText());
 					//getUserShortcuts(currentUser.concat(".csv"));
 					mainPage.start(stage);
-
+					HomePageController.threadActive = true;
+					HomePageController.gameStatusThread = new Thread(new GameStatusThread());
+					HomePageController.gameStatusThread.start();
 				}
 				else {
 					createAlert("Incorrect Password", "Your password is incorrect, Please ensure there are no typos");
