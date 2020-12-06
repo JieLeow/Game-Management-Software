@@ -11,3 +11,12 @@
 /Main$2.class
 /RegisterPage$1.class
 /RegisterPage$2.class
+/DataManagement.class
+/DuplicatePathException.class
+/Program.class
+/FileType.class
+/ExeFile.class
+/JarFile.class
+/UnsupportedFileExtension.class
+/ProgramFile.class
+/SampleController$MultithreadingDemo.class

@@ -88,13 +88,15 @@ public class SampleController implements Initializable{
 
 	//table where the shortcuts would be added to
 	@FXML
-	private TableView<Program> table1 = new TableView<Program>();
+	private TableView<Program> table1;
 
 	//	//list of programs added by user;
 	//	ObservableList<Program> programList;
 
 	//stores current user logged in
 	private static String currentUser;
+	
+	//TODO: maybe add currentUserCSV
 
 
 	//Close current window
@@ -317,10 +319,17 @@ public class SampleController implements Initializable{
 		try {
 //			System.out.println(currentUser);
 			if(filePath != null) {
-				if(filePath.contains(".exe") || filePath.contains(".jar")) 
+				
+				//update to ethan's method
+				if(ProgramFile.validFileExtension(filePath)) {
 					DataManagement.addGame(currentUser, filePath,fileName);
-				else
+				}
+				else {
 					createAlert("Invalid File Extension", "Please add only games with jar and exe extensions");
+					System.out.println("File Path that you want to add is:" + filePath );
+
+				}
+			
 			}
 
 		}
@@ -386,12 +395,13 @@ public class SampleController implements Initializable{
 	public void getUserShortcuts(String userCsv) {
 		//called when user logs in, add files, or remove files;
 
-		//table1 = new TableView<Program>();
+//		table1 = new TableView<Program>();
 		ObservableList<Program> data = FXCollections.observableArrayList();
+		table1.setItems(data); //table will be updated whenever user make any changes //TODO: it's null
 
-		//		System.out.println("What is table 1: " + table1);  //TODO: IT'S NULL??
+				System.out.println("What is table 1: " + table1);  //TODO: IT'S NULL when logged in??
 
-		data.clear();
+//		data.clear();
 		//		System.out.println(table1.getItems());
 		String gamePathRow; 
 
@@ -405,15 +415,41 @@ public class SampleController implements Initializable{
 				String gameName = gameInfo[0];
 				String gamePath = gameInfo[1];
 				
-
-				data.add(new Program(gameName, gamePath, "Inactive")); //adds program to table view
+				//TODO: change Inactive to ENUM/constant
+				data.add(new Program(gameName, gamePath, "Inactive")); //adds program to tableView
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		table1.setItems(data);
+		
+//		table1.setItems(data);  commented out and placed at line 393 instead
+		
+	
 	}
 	
+	
+	public void runGame() {
+		ProgramFile file;
+		
+		Program selectedProgram = table1.getSelectionModel().getSelectedItem();
+		String selectedPath;
+		if(selectedProgram == null) {
+			createAlert("No File Selected", "Your list is either empty or you have not selected a game yet.");
+			return;
+		}else {
+			selectedPath = selectedProgram.getProgramDirectory().trim();
+			System.out.println("Selected path to be executed is:" + selectedPath);
+			try {
+				file = new ProgramFile(selectedPath);
+				file.execute();	
+			}
+			catch(UnsupportedFileExtension e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+	}
 	
 
 //	public void moveProgramUp(ActionEvent event) {
