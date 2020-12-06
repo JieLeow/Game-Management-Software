@@ -117,14 +117,20 @@ public class HomePageController implements Initializable{
 		}
 
 		try {
-			//				System.out.println(userName);
+			System.out.println(SampleController.currentUser);
 			if(filePath != null) {
-				if(filePath.contains(".exe") || filePath.contains(".jar")) 
-					DataManagement.addGame(userName, filePath,fileName);
-				else
+				
+				//update to ethan's method
+				if(ProgramFile.validFileExtension(filePath)) {
+					DataManagement.addGame(SampleController.currentUser, filePath,fileName);
+				}
+				else {
 					createAlert("Invalid File Extension", "Please add only games with jar and exe extensions");
-			}
+					System.out.println("File Path that you want to add is:" + filePath );
 
+				}
+			
+			}
 		}
 		catch(DuplicatePathException e) {
 			System.out.println("Game was already added");
@@ -135,7 +141,7 @@ public class HomePageController implements Initializable{
 			e.printStackTrace();
 		}
 
-		//repopulate the tableView with latest games in user.csv
+		//re-populate the tableView with latest games in user.csv
 		getUserShortcuts(userName.concat(".csv"));
 
 		//TODO: also, need to load the files to the mainPage upon login. NOT IN THIS METHOD THO
@@ -199,6 +205,30 @@ public class HomePageController implements Initializable{
 		table1.setItems(data);
 	}
 
+	//method to allow user to execute a selected game in the tableView
+	public void runGame() {
+		ProgramFile file;
+		
+		Program selectedProgram = table1.getSelectionModel().getSelectedItem();
+		String selectedPath;
+		if(selectedProgram == null) {
+			createAlert("No File Selected", "Your list is either empty or you have not selected a game yet.");
+			return;
+		}else {
+			selectedPath = selectedProgram.getProgramDirectory().trim();
+			System.out.println("Selected path to be executed is:" + selectedPath);
+			try {
+				file = new ProgramFile(selectedPath);
+				file.execute();	
+			}
+			catch(UnsupportedFileExtension e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+	}
+	
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
