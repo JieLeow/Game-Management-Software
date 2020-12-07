@@ -248,9 +248,6 @@ public class SampleController implements Initializable{
 					handleCloseButtonAction(kev);
 					GMS_HomePage mainPage = new GMS_HomePage();
 					mainPage.start(stage);
-					HomePageController homeController = new HomePageController();
-					homeController.startTimer();
-
 				}
 				else {
 					createAlert("Incorrect Password", "Your password is incorrect, Please ensure there are no typos");
@@ -277,8 +274,6 @@ public class SampleController implements Initializable{
 				handleCloseButtonAction(event);
 				GMS_HomePage mainPage = new GMS_HomePage();
 				mainPage.start(stage);
-				HomePageController homeController = new HomePageController();
-				homeController.startTimer();
 			}
 			else {
 				createAlert("Incorrect Password", "Your password is incorrect, Please ensure there are no typos");

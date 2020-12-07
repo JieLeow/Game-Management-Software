@@ -361,7 +361,9 @@ public class HomePageController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		//circle1 = new Circle();
 		circle1.setFill(Color.BLUE);
+		startTimer();
 		System.out.println("User is: "+SampleController.currentUser);
 		getUserShortcuts(SampleController.currentUser.concat(".csv"));
 		label1.setText(SampleController.currentUser);

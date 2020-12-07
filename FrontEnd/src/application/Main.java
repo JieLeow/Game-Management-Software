@@ -23,7 +23,7 @@ public class Main extends Application {
 			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("controller2.png")));
 			
 			//Removes default top bar
-			primaryStage.initStyle(StageStyle.UNDECORATED);
+			primaryStage.initStyle(StageStyle.UNDECORATED); 
 			
 			root.setOnMousePressed(new EventHandler<MouseEvent>(){
 				public void handle(MouseEvent event) {

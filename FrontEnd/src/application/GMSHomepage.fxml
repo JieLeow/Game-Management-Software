@@ -51,12 +51,6 @@
                         <Font size="30.0" />
                      </font>
                   </Label>
-                  <Label layoutX="21.0" layoutY="284.0" text="Active Programs" textFill="WHITE">
-                     <font>
-                        <Font size="30.0" />
-                     </font>
-                  </Label>
-                  <Circle fx:id="circle1" fill="#ff1f1f" layoutX="125.0" layoutY="369.0" radius="31.0" stroke="BLACK" strokeType="INSIDE" />
                </children>
             </AnchorPane>
          </children>
@@ -67,7 +61,7 @@
          <children>
             <Pane prefHeight="700.0" prefWidth="748.0">
                <children>
-                  <TableView fx:id="table1" layoutX="16.0" layoutY="14.0" prefHeight="546.0" prefWidth="718.0" stylesheets="@application.css">
+                  <TableView fx:id="table1" layoutX="16.0" layoutY="98.0" prefHeight="462.0" prefWidth="718.0" stylesheets="@application.css">
                     <columns>
                       <TableColumn prefWidth="256.0" text="Program Name">
                       	<cellValueFactory>
@@ -106,6 +100,12 @@
                         <Font size="30.0" />
                      </font>
                   </Button>
+                  <Label layoutX="228.0" layoutY="26.0" text="Active Programs">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Label>
+                  <Circle fx:id="circle1" fill="#ff1f1f" layoutX="490.0" layoutY="49.0" radius="31.0" stroke="BLACK" strokeType="INSIDE" />
                </children>
             </Pane>
          </children></HBox>
