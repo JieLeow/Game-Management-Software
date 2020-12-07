@@ -102,7 +102,7 @@ public class HomePageController implements Initializable{
 		Stage stage = new Stage();
 		Main loginPage = new Main();
 		loginPage.start(stage);
-		SampleController.currentUser = null; //resets the currentUser
+		InitializationController.currentUser = null; //resets the currentUser
 	}
 
 	//add a program shortcut to the list in homescreen using the add button 
@@ -121,12 +121,12 @@ public class HomePageController implements Initializable{
 			fileName = null;
 		}
 		try {
-			System.out.println(SampleController.currentUser);
+			System.out.println(InitializationController.currentUser);
 			if(filePath != null) {
 
 				//update to ethan's method
 				if(ProgramFile.validFileExtension(filePath)) {
-					DataManagement.addGame(SampleController.currentUser, filePath,fileName);
+					DataManagement.addGame(InitializationController.currentUser, filePath,fileName);
 				}
 				else {
 					createAlert("Invalid File Extension", "Please add only games with jar and exe extensions");
@@ -146,7 +146,7 @@ public class HomePageController implements Initializable{
 		}
 
 		//re-populate the tableView with latest games in user.csv
-		getUserShortcuts(SampleController.currentUser.concat(".csv"));
+		getUserShortcuts(InitializationController.currentUser.concat(".csv"));
 
 	}
 
@@ -165,13 +165,13 @@ public class HomePageController implements Initializable{
 		}
 
 		try {
-			DataManagement.deleteGame(SampleController.currentUser, selectedPath);
+			DataManagement.deleteGame(InitializationController.currentUser, selectedPath);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 		//then fetch data again from user's csv
-		getUserShortcuts(SampleController.currentUser.concat(".csv"));
+		getUserShortcuts(InitializationController.currentUser.concat(".csv"));
 	}
 
 
@@ -359,9 +359,9 @@ public class HomePageController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		startTimer();
-		System.out.println("User is: "+SampleController.currentUser);
-		getUserShortcuts(SampleController.currentUser.concat(".csv"));
-		label1.setText(SampleController.currentUser);
+		System.out.println("User is: "+InitializationController.currentUser);
+		getUserShortcuts(InitializationController.currentUser.concat(".csv"));
+		label1.setText(InitializationController.currentUser);
 
 	}
 }
