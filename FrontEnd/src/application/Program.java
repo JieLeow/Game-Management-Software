@@ -34,20 +34,11 @@ public Program() {
         programDirectory.set(fName);
     }
     
-//    public String getHoursPlayed() {
-//        return hoursPlayed.get();
-//    }
-//    
-//    public void setHoursPlayed(String fName) {
-//        hoursPlayed.set(fName);
-//    }
-    
     public String getGameStatus() {
         return gameStatus.get();
     }
     
     public void setGameStatus(String fName) {
         gameStatus.set(fName);
-    }
-    
+    } 
 }

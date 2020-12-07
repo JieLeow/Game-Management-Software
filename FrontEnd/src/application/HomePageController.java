@@ -1,5 +1,8 @@
 package application;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -7,40 +10,23 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.BufferedReader;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.event.EventHandler;
 
 public class HomePageController implements Initializable{
 
@@ -211,7 +197,6 @@ public class HomePageController implements Initializable{
 			return;
 		}else {
 			selectedPath = selectedProgram.getProgramDirectory().trim();
-			System.out.println("Selected path to be executed is:" + selectedPath);
 			try {
 				file = new ProgramFile(selectedPath);
 				file.terminate();	
@@ -234,7 +219,6 @@ public class HomePageController implements Initializable{
 			return;
 		}else {
 			selectedPath = selectedProgram.getProgramDirectory().trim();
-			System.out.println("Selected path to be executed is:" + selectedPath);
 			try {
 				file = new ProgramFile(selectedPath);
 				file.execute();	
@@ -254,12 +238,10 @@ public class HomePageController implements Initializable{
 				if(checkGameStatus()){
 					//change icon to green
 					circle1.setFill(Color.GREEN);
-					System.out.println("Game is active");
 				}
 				else {
 					//change icon to red
 					circle1.setFill(Color.RED);
-					System.out.println("No games are running");
 
 				}
 			} 
@@ -268,22 +250,15 @@ public class HomePageController implements Initializable{
 
 	public boolean checkGameStatus(){
 
-		if (HomePageController.data != null){
-			//    	    
+		if (HomePageController.data != null){   	    
 			for(Program file: HomePageController.data) {
 				file.getProgramName();
-
 				String program = file.getProgramName();   //or any other process
 				String listOfProcesses = getCommandOutput("tasklist");
 				if (listOfProcesses == null || listOfProcesses.isEmpty()) {
-					System.err.println("Unable to automatically determine if " + program + " is running");
 				} else {
 					if (listOfProcesses.contains(program)) {
-						System.out.println(program + " ISSSS RUNNINGGGGGG!");
 						return true;
-					} else {
-						System.out.println(program + " is not running!");
-
 					}
 				}
 			}
@@ -293,7 +268,6 @@ public class HomePageController implements Initializable{
 
 	public String getCommandOutput(String command)  {
 		String output = null;       //the string to return
-
 		Process process = null;
 		BufferedReader reader = null;
 		InputStreamReader streamReader = null;
@@ -319,34 +293,26 @@ public class HomePageController implements Initializable{
 			}
 
 		} catch (IOException e) {
-			System.err.println("Cannot retrieve output of command");
-			System.err.println(e);
 			output = null;
 		} catch (InterruptedException e) {
-			System.err.println("Cannot retrieve output of command");
-			System.err.println(e);
 		} finally {
 			//Close all inputs / readers
-
 			if (stream != null) {
 				try {
 					stream.close();
 				} catch (IOException e) {
-					System.err.println("Cannot close stream input! " + e);
 				}
 			} 
 			if (streamReader != null) {
 				try {
 					streamReader.close();
 				} catch (IOException e) {
-					System.err.println("Cannot close stream input reader! " + e);
 				}
 			}
 			if (reader != null) {
 				try {
 					reader.close();
 				} catch (IOException e) {
-					System.err.println("Cannot close reader! " + e);
 				}
 			}
 		}
@@ -354,14 +320,10 @@ public class HomePageController implements Initializable{
 		return output;
 	}
 
-
-
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		startTimer();
-		System.out.println("User is: "+InitializationController.currentUser);
 		getUserShortcuts(InitializationController.currentUser.concat(".csv"));
 		label1.setText(InitializationController.currentUser);
-
 	}
 }

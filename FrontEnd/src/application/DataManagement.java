@@ -1,14 +1,11 @@
 package application;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class DataManagement {
 
@@ -25,7 +22,7 @@ public class DataManagement {
 		csvWriter.close();
 	}
 	
-	
+
 	public static void addGame(String user, String location, String game) throws DuplicatePathException, IOException {
 		if(user != null) {
 			String loc = user + ".csv";
@@ -42,7 +39,6 @@ public class DataManagement {
 					}
 				}
 				csvReader.close();
-				
 			}
 			FileWriter csvWriter = new FileWriter(loc, true);
 			csvWriter.append(game);
@@ -55,6 +51,7 @@ public class DataManagement {
 		}
 	}
 	
+	// Removes
 	public static void deleteGame(String user, String location) throws IOException {
 		if(user != null) {
 			String loc = user + ".csv";
@@ -68,8 +65,7 @@ public class DataManagement {
 					String[] data = row.split(",");
 					String gamePath = data[1];
 					if(!gamePath.equals(location)) {
-						gameList.add(row);
-						
+						gameList.add(row);	
 					}
 				}
 				csvReader.close();
@@ -80,8 +76,7 @@ public class DataManagement {
 				csvWriter.append("\n");
 				for (int i = 0; i < gameList.size(); i++) {
 					csvWriter.append(gameList.get(i));
-					csvWriter.append("\n");
-					
+					csvWriter.append("\n");	
 				}
 				csvWriter.flush();
 				csvWriter.close();

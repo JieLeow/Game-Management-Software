@@ -30,11 +30,9 @@ public class ExeFile extends FileType
             Runtime run  = Runtime.getRuntime(); 
             Process proc = run.exec(dir); 
         } 
-  
         catch (IOException e) 
         { 
             e.printStackTrace(); 
         } 
 	}
-
 }
