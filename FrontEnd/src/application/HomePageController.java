@@ -108,7 +108,6 @@ public class HomePageController implements Initializable{
 			fileName = null;
 		}
 		try {
-			System.out.println(InitializationController.currentUser);
 			if(filePath != null) {
 
 				//update to ethan's method

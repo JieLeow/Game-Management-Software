@@ -5,8 +5,7 @@ import javafx.beans.property.SimpleStringProperty;
 public class Program {
    private final SimpleStringProperty programName = new SimpleStringProperty("");
    private final SimpleStringProperty programDirectory = new SimpleStringProperty("");
-//   private final SimpleStringProperty hoursPlayed = new SimpleStringProperty("");
-
+   
 public Program() {
         this("", "");
     }

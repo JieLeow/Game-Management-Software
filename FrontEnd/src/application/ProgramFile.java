@@ -32,8 +32,6 @@ public class ProgramFile
 	
 	public static boolean validFileExtension(String dir) {
 		for (FileType file: supportedFileTypes) {
-			System.out.println("Directory is " + dir);
-			System.out.println("File class is " + file.getClass());
 			
 			if (file.validFileExtension(dir)) {	
 				return true;

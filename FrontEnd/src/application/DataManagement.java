@@ -105,7 +105,5 @@ public class DataManagement {
 		}
 		return programs; //returns the list, to be used in homePageController
 
-	}
-	
-	
+	}	
 }
