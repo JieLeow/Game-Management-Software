@@ -78,10 +78,6 @@ public class InitializationController implements Initializable{
 	@FXML
 	private Hyperlink register;
 
-	//table where the shortcuts would be added to
-	@FXML
-	private TableView<Program> table1 = new TableView<Program>();
-
 	//stores current user logged in
 	public static String currentUser;
 

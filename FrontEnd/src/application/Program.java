@@ -5,17 +5,15 @@ import javafx.beans.property.SimpleStringProperty;
 public class Program {
    private final SimpleStringProperty programName = new SimpleStringProperty("");
    private final SimpleStringProperty programDirectory = new SimpleStringProperty("");
-   private final SimpleStringProperty gameStatus = new SimpleStringProperty("");
 //   private final SimpleStringProperty hoursPlayed = new SimpleStringProperty("");
 
 public Program() {
-        this("", "", "");
+        this("", "");
     }
  
-    public Program(String programName, String programDirectory, String gameStatus) {
+    public Program(String programName, String programDirectory) {
         setProgramName(programName);
         setProgramDirectory(programDirectory);
-        setGameStatus(gameStatus);
     }
 
     public String getProgramName() {
@@ -33,12 +31,4 @@ public Program() {
     public void setProgramDirectory(String fName) {
         programDirectory.set(fName);
     }
-    
-    public String getGameStatus() {
-        return gameStatus.get();
-    }
-    
-    public void setGameStatus(String fName) {
-        gameStatus.set(fName);
-    } 
 }

@@ -7,6 +7,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class DataManagement {
 
 	public static String path = "GamesLocation.csv";
@@ -51,7 +54,6 @@ public class DataManagement {
 		}
 	}
 	
-	// Removes
 	public static void deleteGame(String user, String location) throws IOException {
 		if(user != null) {
 			String loc = user + ".csv";
@@ -83,4 +85,27 @@ public class DataManagement {
 			}
 		}
 	}
+
+	public static ArrayList<Program> loadGames(String userCsv) {
+		String gamePathRow; 
+		ArrayList<Program> programs = new ArrayList<Program>();
+		//loop through user's csv file and add to an arrayList
+		try {
+			BufferedReader gameFileReader = new BufferedReader(new FileReader(userCsv));
+			gameFileReader.readLine(); //read to skip first (header) line
+			while((gamePathRow = gameFileReader.readLine()) != null) {
+
+				String[] gameInfo = gamePathRow.split(",");
+				String gameName = gameInfo[0];
+				String gamePath = gameInfo[1];
+				programs.add(new Program(gameName, gamePath)); //adds program to arraylist
+				}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return programs; //returns the list, to be used in homePageController
+
+	}
+	
+	
 }

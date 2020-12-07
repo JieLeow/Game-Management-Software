@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -161,31 +162,6 @@ public class HomePageController implements Initializable{
 	}
 
 
-	public void getUserShortcuts(String userCsv) {
-		//called when user logs in, add files, or remove files;
-		data = FXCollections.observableArrayList();
-		String gamePathRow; 
-
-		//loop through user's csv file and retrieve game data to tableView
-		try {
-			BufferedReader gameFileReader = new BufferedReader(new FileReader(userCsv));
-			gameFileReader.readLine(); //read to skip first (header) line
-			while((gamePathRow = gameFileReader.readLine()) != null) {
-
-				String[] gameInfo = gamePathRow.split(",");
-				String gameName = gameInfo[0];
-				String gamePath = gameInfo[1];
-
-				//TODO: fix this, no magic numbers
-				data.add(new Program(gameName, gamePath, "Inactive")); //adds program to table view
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		table1.setItems(data);
-	}
-
-
 	@FXML
 	public void terminateGame() {
 		ProgramFile file;
@@ -320,6 +296,15 @@ public class HomePageController implements Initializable{
 		return output;
 	}
 
+	//this method is called when user logs in, add files, or remove files;
+		public void getUserShortcuts(String userCsv) {
+			
+			ArrayList<Program> programs =  DataManagement.loadGames(userCsv);
+			data = FXCollections.observableArrayList(programs);
+			table1.setItems(data);
+			
+		}
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		startTimer();
