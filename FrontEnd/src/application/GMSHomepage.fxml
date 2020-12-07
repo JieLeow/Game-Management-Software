@@ -100,12 +100,12 @@
                         <Font size="30.0" />
                      </font>
                   </Button>
-                  <Label layoutX="228.0" layoutY="26.0" text="Active Programs">
+                  <Label layoutX="261.0" layoutY="28.0" text="Game Status">
                      <font>
                         <Font size="30.0" />
                      </font>
                   </Label>
-                  <Circle fx:id="circle1" fill="#ff1f1f" layoutX="490.0" layoutY="49.0" radius="31.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Circle fx:id="circle1" fill="#ff1f1f" layoutX="464.0" layoutY="51.0" radius="19.0" stroke="BLACK" strokeType="INSIDE" />
                </children>
             </Pane>
          </children></HBox>
