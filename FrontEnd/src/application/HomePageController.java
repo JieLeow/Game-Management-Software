@@ -1,9 +1,12 @@
 package application;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ResourceBundle;
-
+import java.util.Timer;
+import java.util.TimerTask;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -32,6 +35,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -45,23 +50,20 @@ public class HomePageController implements Initializable{
 
 	@FXML
 	private Label label1;
-	
+
 	@FXML 
 	private Button minimizeButton;
 
 	@FXML
 	private Button closeButton;
 
-	private String userName;
+	@FXML
+	private Circle circle1;
 
-	public String getUserName() {
-		return userName;
-	}
+	public static Timer gameStatusTimer;
 
-	public void setUserName(String user) {
-		userName = user;
-		initialize(null, null);
-	}
+	//	private ObservableList<Program> data;
+	public static ObservableList<Program> data;
 
 	/* creates an alert
 	@Param title - name of the alert box
@@ -89,6 +91,8 @@ public class HomePageController implements Initializable{
 	@FXML
 	public void handleCloseButtonAction(Event event) {
 		Stage stage = (Stage) closeButton.getScene().getWindow();
+		gameStatusTimer.cancel();
+
 		stage.close();
 	}	
 
@@ -98,10 +102,11 @@ public class HomePageController implements Initializable{
 		Stage stage = new Stage();
 		Main loginPage = new Main();
 		loginPage.start(stage);
-		userName = null; //resets the currentUser
+		SampleController.currentUser = null; //resets the currentUser
 	}
 
 	//add a program shortcut to the list in homescreen using the add button 
+	@FXML
 	public void chooseFile(ActionEvent event) {
 
 		String filePath, fileName;
@@ -115,11 +120,10 @@ public class HomePageController implements Initializable{
 			filePath = null;
 			fileName = null;
 		}
-
 		try {
 			System.out.println(SampleController.currentUser);
 			if(filePath != null) {
-				
+
 				//update to ethan's method
 				if(ProgramFile.validFileExtension(filePath)) {
 					DataManagement.addGame(SampleController.currentUser, filePath,fileName);
@@ -129,7 +133,7 @@ public class HomePageController implements Initializable{
 					System.out.println("File Path that you want to add is:" + filePath );
 
 				}
-			
+
 			}
 		}
 		catch(DuplicatePathException e) {
@@ -142,7 +146,7 @@ public class HomePageController implements Initializable{
 		}
 
 		//re-populate the tableView with latest games in user.csv
-		getUserShortcuts(userName.concat(".csv"));
+		getUserShortcuts(SampleController.currentUser.concat(".csv"));
 
 		//TODO: also, need to load the files to the mainPage upon login. NOT IN THIS METHOD THO
 
@@ -163,27 +167,20 @@ public class HomePageController implements Initializable{
 		}
 
 		try {
-			DataManagement.deleteGame(userName, selectedPath);
+			DataManagement.deleteGame(SampleController.currentUser, selectedPath);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		//then fetch data again from user's csv
-		getUserShortcuts(userName.concat(".csv"));
+		getUserShortcuts(SampleController.currentUser.concat(".csv"));
 	}
 
 
 	public void getUserShortcuts(String userCsv) {
 		//called when user logs in, add files, or remove files;
-
-		//table1 = new TableView<Program>();
-		ObservableList<Program> data = FXCollections.observableArrayList();
-
-		//		System.out.println("What is table 1: " + table1);  //TODO: IT'S NULL??
-
-		data.clear();
-		//		System.out.println(table1.getItems());
+		data = FXCollections.observableArrayList();
 		String gamePathRow; 
 
 		//loop through user's csv file and retrieve game data to tableView
@@ -196,7 +193,7 @@ public class HomePageController implements Initializable{
 				String gameName = gameInfo[0];
 				String gamePath = gameInfo[1];
 
-
+				//TODO: fix this, no magic numbers
 				data.add(new Program(gameName, gamePath, "Inactive")); //adds program to table view
 			}
 		} catch (IOException e) {
@@ -205,10 +202,34 @@ public class HomePageController implements Initializable{
 		table1.setItems(data);
 	}
 
+
+	@FXML
+	public void terminateGame() {
+		ProgramFile file;
+
+		Program selectedProgram = table1.getSelectionModel().getSelectedItem();
+		String selectedPath;
+		if(selectedProgram == null) {
+			createAlert("No File Selected", "Your list is either empty or you have not selected a game yet.");
+			return;
+		}else {
+			selectedPath = selectedProgram.getProgramDirectory().trim();
+			System.out.println("Selected path to be executed is:" + selectedPath);
+			try {
+				file = new ProgramFile(selectedPath);
+				file.terminate();	
+			}
+			catch(UnsupportedFileExtension e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	//method to allow user to execute a selected game in the tableView
+	@FXML
 	public void runGame() {
 		ProgramFile file;
-		
+
 		Program selectedProgram = table1.getSelectionModel().getSelectedItem();
 		String selectedPath;
 		if(selectedProgram == null) {
@@ -224,17 +245,126 @@ public class HomePageController implements Initializable{
 			catch(UnsupportedFileExtension e) {
 				e.printStackTrace();
 			}
-			
 		}
-		
 	}
-	
+
+
+	void startTimer() {
+		gameStatusTimer = new Timer();
+		gameStatusTimer.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+				if(checkGameStatus()){
+					//change icon to green
+					circle1.setFill(Color.GREEN);
+					System.out.println("Game is active");
+				}
+				else {
+					//change icon to red
+					circle1.setFill(Color.RED);
+					System.out.println("No games are running");
+
+				}
+			} 
+		}, 0, 1000);
+	}
+
+	public boolean checkGameStatus(){
+
+		if (HomePageController.data != null){
+			//    	    
+			for(Program file: HomePageController.data) {
+				file.getProgramName();
+
+				String program = file.getProgramName();   //or any other process
+				String listOfProcesses = getCommandOutput("tasklist");
+				if (listOfProcesses == null || listOfProcesses.isEmpty()) {
+					System.err.println("Unable to automatically determine if " + program + " is running");
+				} else {
+					if (listOfProcesses.contains(program)) {
+						System.out.println(program + " ISSSS RUNNINGGGGGG!");
+						return true;
+					} else {
+						System.out.println(program + " is not running!");
+
+					}
+				}//else: process list can be retrieved
+			}
+		}
+		return false;
+	}
+
+	public String getCommandOutput(String command)  {
+		String output = null;       //the string to return
+
+		Process process = null;
+		BufferedReader reader = null;
+		InputStreamReader streamReader = null;
+		InputStream stream = null;
+
+		try {
+			process = Runtime.getRuntime().exec(command);
+
+			//Get stream of the console running the command
+			stream = process.getInputStream();
+			streamReader = new InputStreamReader(stream);
+			reader = new BufferedReader(streamReader);
+
+			String currentLine = null;  //store current line of output from the cmd
+			StringBuilder commandOutput = new StringBuilder();  //build up the output from cmd
+			while ((currentLine = reader.readLine()) != null) {
+				commandOutput.append(currentLine + "\n");
+			}
+
+			int returnCode = process.waitFor();
+			if (returnCode == 0) {
+				output = commandOutput.toString();
+			}
+
+		} catch (IOException e) {
+			System.err.println("Cannot retrieve output of command");
+			System.err.println(e);
+			output = null;
+		} catch (InterruptedException e) {
+			System.err.println("Cannot retrieve output of command");
+			System.err.println(e);
+		} finally {
+			//Close all inputs / readers
+
+			if (stream != null) {
+				try {
+					stream.close();
+				} catch (IOException e) {
+					System.err.println("Cannot close stream input! " + e);
+				}
+			} 
+			if (streamReader != null) {
+				try {
+					streamReader.close();
+				} catch (IOException e) {
+					System.err.println("Cannot close stream input reader! " + e);
+				}
+			}
+			if (reader != null) {
+				try {
+					reader.close();
+				} catch (IOException e) {
+					System.err.println("Cannot close reader! " + e);
+				}
+			}
+		}
+		//Return the output from the command - may be null if an error occured
+		return output;
+	}
+
+
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		userName = SampleController.currentUser;
-		getUserShortcuts(userName.concat(".csv"));
-		label1.setText(userName);
-	}
+		circle1.setFill(Color.BLUE);
+		System.out.println("User is: "+SampleController.currentUser);
+		getUserShortcuts(SampleController.currentUser.concat(".csv"));
+		label1.setText(SampleController.currentUser);
 
+	}
 }

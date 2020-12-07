@@ -1,8 +1,14 @@
 package application;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
+
+//import application.HomePageController.GameStatusTimer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -33,6 +39,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -63,7 +71,7 @@ public class SampleController implements Initializable{
 	// user name on homepage
 	@FXML
 	private Label unameLabel;
-	
+
 	// password on login screen
 	@FXML
 	private PasswordField pass;
@@ -101,7 +109,9 @@ public class SampleController implements Initializable{
 
 	//stores current user logged in
 	public static String currentUser;
-	
+
+	public static Timer gameStatusTimer;
+
 
 	//Close current window
 	@FXML
@@ -236,12 +246,10 @@ public class SampleController implements Initializable{
 				if(exist) {
 					currentUser = uname.getText();
 					handleCloseButtonAction(kev);
-					//HomePageController mainController = new HomePageController();
-					//mainController.setUserName(currentUser);
 					GMS_HomePage mainPage = new GMS_HomePage();
-					//					GMS_HomePage mainPage = new GMS_HomePage(uname.getText());
-					//getUserShortcuts(currentUser.concat(".csv"));
 					mainPage.start(stage);
+					HomePageController homeController = new HomePageController();
+					homeController.startTimer();
 
 				}
 				else {
@@ -267,12 +275,10 @@ public class SampleController implements Initializable{
 			if(exist) {
 				currentUser = uname.getText();
 				handleCloseButtonAction(event);
-				//HomePageController mainController = new HomePageController();
-				//mainController.setUserName(currentUser);
 				GMS_HomePage mainPage = new GMS_HomePage();
 				mainPage.start(stage);
-				//retrieve user shortcuts to mainpage
-				//getUserShortcuts(currentUser.concat(".csv"));
+				HomePageController homeController = new HomePageController();
+				homeController.startTimer();
 			}
 			else {
 				createAlert("Incorrect Password", "Your password is incorrect, Please ensure there are no typos");

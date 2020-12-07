@@ -14,6 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" style="-fx-border-color: #000000;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.HomePageController">
@@ -35,22 +36,12 @@
                         <Insets left="44.0" />
                      </padding>
                   </Label>
-                  <Button layoutY="332.0" mnemonicParsing="false" onAction="#runGame" prefHeight="80.0" prefWidth="250.0" stylesheets="@application.css" text="Play" textFill="WHITE">
+                  <Button layoutY="458.0" mnemonicParsing="false" onAction="#runGame" prefHeight="100.0" prefWidth="250.0" stylesheets="@application.css" text="Play" textFill="WHITE">
                      <font>
                         <Font size="30.0" />
                      </font>
                   </Button>
-                  <Button layoutY="572.0" mnemonicParsing="false" onAction="#backToLogin" prefHeight="80.0" prefWidth="250.0" stylesheets="@application.css" text="Logout" textFill="WHITE">
-                     <font>
-                        <Font size="30.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="add" layoutY="412.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="80.0" prefWidth="250.0" stylesheets="@application.css" text="Add" textFill="WHITE">
-                     <font>
-                        <Font size="30.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="delete" layoutY="492.0" mnemonicParsing="false" onAction="#removeFile" prefHeight="80.0" prefWidth="250.0" stylesheets="@application.css" text="Delete" textFill="WHITE">
+                  <Button layoutY="558.0" mnemonicParsing="false" onAction="#backToLogin" prefHeight="100.0" prefWidth="250.0" stylesheets="@application.css" text="Logout" textFill="WHITE">
                      <font>
                         <Font size="30.0" />
                      </font>
@@ -60,6 +51,12 @@
                         <Font size="30.0" />
                      </font>
                   </Label>
+                  <Label layoutX="21.0" layoutY="284.0" text="Active Programs" textFill="WHITE">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Label>
+                  <Circle fx:id="circle1" fill="#ff1f1f" layoutX="125.0" layoutY="369.0" radius="31.0" stroke="BLACK" strokeType="INSIDE" />
                </children>
             </AnchorPane>
          </children>
@@ -70,25 +67,19 @@
          <children>
             <Pane prefHeight="700.0" prefWidth="748.0">
                <children>
-                  <TableView fx:id="table1" layoutX="16.0" layoutY="14.0" prefHeight="633.0" prefWidth="718.0" stylesheets="@application.css">
+                  <TableView fx:id="table1" layoutX="16.0" layoutY="14.0" prefHeight="546.0" prefWidth="718.0" stylesheets="@application.css">
                     <columns>
-                      <TableColumn prefWidth="125.0" text="Program Name">
+                      <TableColumn prefWidth="256.0" text="Program Name">
                       	<cellValueFactory>
                       		<PropertyValueFactory property="programName" />
         				</cellValueFactory>
         			  </TableColumn>
  	
-                      <TableColumn prefWidth="458.0" text="Program Directory">
+                      <TableColumn prefWidth="461.0" text="Program Directory">
                        	<cellValueFactory>
                       		<PropertyValueFactory property="programDirectory" />
         				</cellValueFactory>
-					  </TableColumn>
-                      
-                      <TableColumn prefWidth="134.0" text="Game Status">
-                      	<cellValueFactory>
-                      		<PropertyValueFactory property="gameStatus" />
-        				</cellValueFactory>
-                      </TableColumn>      
+					  </TableColumn>     
                     </columns>
                 	
                 	<items>
@@ -100,6 +91,21 @@
                 	</items>
                   
                   </TableView>
+                  <Button fx:id="add" layoutX="16.0" layoutY="572.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="75.0" prefWidth="240.0" stylesheets="@application.css" text="Add" textFill="WHITE">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="delete" layoutX="285.0" layoutY="572.0" mnemonicParsing="false" onAction="#removeFile" prefHeight="75.0" prefWidth="240.0" stylesheets="@application.css" text="Delete" textFill="WHITE">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="terminate" layoutX="553.0" layoutY="572.0" mnemonicParsing="false" onAction="#terminateGame" prefHeight="75.0" prefWidth="181.0" style="-fx-background-color: #FF0000;" text="Terminate" textFill="WHITE">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Button>
                </children>
             </Pane>
          </children></HBox>

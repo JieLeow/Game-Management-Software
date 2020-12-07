@@ -26,6 +26,10 @@ public class ProgramFile
 		fileType.execute(directory);
 	}
 
+	public void terminate(){
+	  	fileType.terminate(directory);
+	  }
+	
 	public static boolean validFileExtension(String dir) {
 		for (FileType file: supportedFileTypes) {
 			
