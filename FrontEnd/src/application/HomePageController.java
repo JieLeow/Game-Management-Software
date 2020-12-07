@@ -148,8 +148,6 @@ public class HomePageController implements Initializable{
 		//re-populate the tableView with latest games in user.csv
 		getUserShortcuts(SampleController.currentUser.concat(".csv"));
 
-		//TODO: also, need to load the files to the mainPage upon login. NOT IN THIS METHOD THO
-
 	}
 
 	//remove selected program shortcut in the list in homescreen using the delete button
@@ -169,7 +167,6 @@ public class HomePageController implements Initializable{
 		try {
 			DataManagement.deleteGame(SampleController.currentUser, selectedPath);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -288,7 +285,7 @@ public class HomePageController implements Initializable{
 						System.out.println(program + " is not running!");
 
 					}
-				}//else: process list can be retrieved
+				}
 			}
 		}
 		return false;
@@ -361,8 +358,6 @@ public class HomePageController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		//circle1 = new Circle();
-		circle1.setFill(Color.BLUE);
 		startTimer();
 		System.out.println("User is: "+SampleController.currentUser);
 		getUserShortcuts(SampleController.currentUser.concat(".csv"));
